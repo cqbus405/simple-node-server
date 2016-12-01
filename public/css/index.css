@@ -24,13 +24,6 @@ body {
 	margin: 0;
 }
 
-.p1 {
-	font-family: 'Gruppo', cursive;
-	font-size: 18pt;
-	padding: 8px;
-	margin: 0;
-}
-
 .p2 {
 	font-family: 'Gruppo', cursive;
 	font-size: 10pt;
@@ -41,9 +34,20 @@ body {
 	word-spacing: 1.2px;
 }
 
-/*.btn1 {
-	background: transparent;
-	padding:3% 8%;
-	margin:24px;
+.btn1 {
+	background-color: transparent;
+	padding: 18px 48px;
+	margin: 24px;
+	transition: 0.3s;
+	border: 1px solid snow;
+	display: inline-block;
+	text-decoration: none;
 	color: snow;
-}*/
+	font-family: 'Gruppo', cursive;
+}
+
+.btn1:hover {
+	border: 1px solid #E0E0E0;
+	background-color: #E0E0E0;
+	color: black;
+}
