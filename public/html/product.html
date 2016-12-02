@@ -52,6 +52,21 @@
                     <img id="img6" src="/static/image/s6.jpg" alt="s6" width="600px" height="400px">
                 </div>
             </div>
+            <div class="responsive">
+                <div class="img">
+                    <img id="img7" src="/static/image/s7.jpg" alt="s7" width="600px" height="400px">
+                </div>
+            </div>
+            <div class="responsive">
+                <div class="img">
+                    <img id="img8" src="/static/image/s8.jpg" alt="s8" width="600px" height="400px">
+                </div>
+            </div>
+            <div class="responsive">
+                <div class="img">
+                    <img id="img9" src="/static/image/s9.jpg" alt="s9" width="600px" height="400px">
+                </div>
+            </div>
             <div class="clearfix"></div>
         </div>
         <div id="picture-modal" class="modal">
@@ -97,6 +112,9 @@
     var img4 = document.getElementById('img4');
     var img5 = document.getElementById('img5');
     var img6 = document.getElementById('img6');
+    var img7 = document.getElementById('img7');
+    var img8 = document.getElementById('img8');
+    var img9 = document.getElementById('img9');
 
     var modalImg = document.getElementById("img01");
     var captionText = document.getElementById("caption");
@@ -127,6 +145,21 @@
         captionText.innerHTML = this.alt;
     }
     img6.onclick = function() {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+    }
+    img7.onclick = function() {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+    }
+    img8.onclick = function() {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+    }
+    img9.onclick = function() {
         modal.style.display = "block";
         modalImg.src = this.src;
         captionText.innerHTML = this.alt;

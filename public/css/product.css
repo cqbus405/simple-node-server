@@ -6,6 +6,7 @@ body {
 h2 {
     font-family: 'Montserrat', sans-serif;
     text-transform: uppercase;
+    font-size: 14pt;
 }
 
 p {
@@ -230,6 +231,6 @@ p {
 }
 
 .footer li a img {
-    width: 42px;
-    height: 42px;
+    width: 28px;
+    height: 28px;
 }
