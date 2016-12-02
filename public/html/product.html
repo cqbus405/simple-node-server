@@ -24,38 +24,44 @@
             <h2>Detail Pictures</h2>
             <div class="responsive">
                 <div class="img">
-                    <a href="" target="_blank"><img src="/static/image/gun1.JPG" alt="gun1" width="600px" height="400px"></a>
+                    <img id="img1" src="/static/image/s1.JPG" alt="s1" width="600px" height="400px">
                 </div>
             </div>
             <div class="responsive">
                 <div class="img">
-                    <a href="" target="_blank"><img src="/static/image/gun2.jpg" alt="gun2" width="600px" height="400px"></a>
+                    <img id="img2" src="/static/image/s2.jpg" alt="s2" width="600px" height="400px">
                 </div>
             </div>
             <div class="responsive">
                 <div class="img">
-                    <a href="" target="_blank"><img src="/static/image/gun3.jpg" alt="gun3" width="600px" height="400px"></a>
+                    <img id="img3" src="/static/image/s3.jpg" alt="s3" width="600px" height="400px">
                 </div>
             </div>
             <div class="responsive">
                 <div class="img">
-                    <a href="" target="_blank"><img src="/static/image/gun4.jpg" alt="gun4" width="600px" height="400px"></a>
+                    <img id="img4" src="/static/image/s4.jpg" alt="s4" width="600px" height="400px">
                 </div>
             </div>
             <div class="responsive">
                 <div class="img">
-                    <a href="" target="_blank"><img src="/static/image/gun5.jpg" alt="gun5" width="600px" height="400px"></a>
+                    <img id="img5" src="/static/image/s5.jpg" alt="s5" width="600px" height="400px">
                 </div>
             </div>
             <div class="responsive">
                 <div class="img">
-                    <a href="" target="_blank"><img src="/static/image/gun6.jpg" alt="gun6" width="600px" height="400px"></a>
+                    <img id="img6" src="/static/image/s6.jpg" alt="s6" width="600px" height="400px">
                 </div>
             </div>
             <div class="clearfix"></div>
         </div>
+        <div id="picture-modal" class="modal">
+            <span class="close"><img src="/static/image/ic_close_white.svg"></span>
+            <img class="modal-content" id="img01">
+            <div id="caption"></div>
+        </div>
         <div class="specifications">
             <h2>Specifications</h2>
+            <img src="/static/image/pic2.png" width="100%" height="auto">
             <div class="specifications-content">
                 <p>1. When writing HTML you've probably noticed that it has a clear nested and visual hierarchy.</p>
                 <p>2. CSS, on the other hand, doesn't.</p>
@@ -80,6 +86,60 @@
             <a href="" target=""><img src="/static/image/icon_sina.svg" alt="sina"></a>
         </li>
     </ul>
+    <script>
+    // Get the modal
+    var modal = document.getElementById('picture-modal');
+
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    var img1 = document.getElementById('img1');
+    var img2 = document.getElementById('img2');
+    var img3 = document.getElementById('img3');
+    var img4 = document.getElementById('img4');
+    var img5 = document.getElementById('img5');
+    var img6 = document.getElementById('img6');
+
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+
+    img1.onclick = function() {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+    }
+    img2.onclick = function() {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+    }
+    img3.onclick = function() {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+    }
+    img4.onclick = function() {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+    }
+    img5.onclick = function() {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+    }
+    img6.onclick = function() {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+    }
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    </script>
 </body>
 
 </html>
