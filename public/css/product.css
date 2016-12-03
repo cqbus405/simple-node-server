@@ -48,8 +48,13 @@ p {
 }
 
 .video {
-    margin: 5% auto;
+    margin: 5% 0;
     text-align: center;
+}
+
+.video-content {
+    width: 98%;
+    height: 480px;
 }
 
 .description h2 {
@@ -62,6 +67,10 @@ p {
 
 .pictures {
     margin: 5% 0 10%;
+}
+
+.pictures h2 {
+    margin-bottom: 36px;
 }
 
 .responsive {
