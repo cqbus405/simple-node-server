@@ -1,9 +1,12 @@
 import index from './lib/index'
+import getLogger from './lib/log4js.js'
+
+let logger = getLogger('startup')
 
 index((err, result) => {
-	if (err) {
-		console.log(err)
-	}
+  if (err) {
+    logger.error('error while server is running: ' + err)
+  }
 
-	console.log('server is running @ port ' + result.port + ' ' + result.mode)
+  logger.info('server is running @ port ' + result.port + ' ' + result.mode)
 })

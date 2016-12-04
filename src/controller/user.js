@@ -1,5 +1,6 @@
 export function getUsers(req, res, next) {
-	const User = req.models.user;
+	const User = req.models.user
+
 	User.all((err, users) => {
 		if (err) {
 			return res.json({

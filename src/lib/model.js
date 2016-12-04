@@ -1,5 +1,6 @@
 import path from 'path'
 import * as util from '../util/_helper'
+import paging from 'orm-paging'
 
 export default function(app, opt, callback) {
 	const orm = opt.orm
@@ -25,6 +26,8 @@ export default function(app, opt, callback) {
 				req.models = db.models
 				return next()
 			})
+
+			db.use(paging)
 
 			db.sync(function(err) {
 				if (err) {

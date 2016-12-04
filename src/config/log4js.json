@@ -1,0 +1,25 @@
+{
+  "appenders": [{
+    "type": "console"
+  }, {
+    "type": "dateFile",
+    "filename": "log/access.log",
+    "pattern": "-yyyy-MM-dd",
+    "category": "http"
+  }, {
+    "type": "logLevelFilter",
+    "level": "ERROR",
+    "appender": {
+      "type": "dateFile",
+      "filename": "log/errors.log",
+      "pattern": "-yyyy-MM-dd"
+    }
+  }, {
+    "type": "file",
+    "filename": "log/app.log",
+    "maxLogSize": 1024,
+    "numBackups": 3,
+    "category": "startup"
+  }],
+  "replaceConsole": true
+}

@@ -1,7 +1,7 @@
 module.exports = function(orm, db) {
 	const User = db.define('user', {
 		id: {
-			type: 'integer'
+			type: 'serial',
 		},
 		firstname: {
 			type: 'text'
@@ -25,10 +25,7 @@ module.exports = function(orm, db) {
 			type: 'date'
 		},
 	}, {
-		hooks: {
-			beforeCreate: function() {
-				this.createdAt = new Date()
-			}
-		}
+		cache: false,
+		timestamp: true
 	})
 }

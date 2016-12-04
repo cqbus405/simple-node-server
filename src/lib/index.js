@@ -31,12 +31,15 @@ export default function(opt, callback) {
 	}
 	setting = settings[mode]
 
+	hook_express(app, express)
+
 	app.use(function(req, res, next) {
 		req.setting = setting
 		req.mode = mode
 		next()
 	})
 
+	// setup orm
 	model(app, {
 		setting: setting,
 		hook: hook_orm,
@@ -47,8 +50,6 @@ export default function(opt, callback) {
 		if (err) {
 			return callback(err, null)
 		}
-
-		hook_express(app, express)
 
 		//routes
 		controller(path + '/controller', function(err, controllers) {
