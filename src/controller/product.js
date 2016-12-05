@@ -1,4 +1,5 @@
 import getLogger from '../lib/log4js'
+import passport from 'passport'
 
 const logger = getLogger('controller-product');
 
@@ -72,7 +73,6 @@ export function addProduct(req, res, next) {
 
 export function editProduct(req, res, next) {
   const updatedProduct = req.body.product
-
   if (!updatedProduct) {
     return res.json({
       status: 500,
@@ -98,8 +98,6 @@ export function editProduct(req, res, next) {
         msg: err
       })
     }
-
-    // let foundProduct = product
 
     if (updatedProduct['name']) {
       product.name = updatedProduct['name']
@@ -222,7 +220,7 @@ export function getProducts(req, res, next) {
       })
     }
 
-    if (pageNumber > pages) {
+    if (pageNumber >= pages) {
       pageNumber = pages
     }
 

@@ -34,7 +34,7 @@ export default function(app, opt, callback) {
 					return callback(err, null)
 				}
 
-				callback(null, 'connected to mysql successfully')
+				callback(null, 'connected to mysql successfully', db.models.user)
 			})
 		})
 	})

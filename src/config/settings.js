@@ -1,8 +1,9 @@
 export default {
   development: {
-    ip: '66.1.33.75',
+    ip: '127.0.0.1',
     port: 3000,
-    mysql: 'mysql://root:cqgogogo@localhost/test'
+    mysql: 'mysql://root:cqgogogo@localhost/test',
+    salt_round: 10
   },
   prod: {
 

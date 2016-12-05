@@ -8,5 +8,5 @@ index((err, result) => {
     logger.error('error while server is running: ' + err)
   }
 
-  logger.info('server is running @ port ' + result.port + ' ' + result.mode)
+  logger.info('server is running @ port ' + result.port + ' ' + result.mode + '\n mysql: ' + result.db)
 })

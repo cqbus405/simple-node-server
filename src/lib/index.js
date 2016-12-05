@@ -7,6 +7,7 @@ import {
 import * as util from '../util/_helper'
 import model from './model'
 import controller from './controller'
+import passport from './passport'
 
 import settings from '../config/settings'
 import hook_router from '../config/router'
@@ -46,7 +47,7 @@ export default function(opt, callback) {
 		path: `${path}/model`,
 		orm: orm,
 		mode: mode
-	}, (err, result) => {
+	}, (err, result, user) => {
 		if (err) {
 			return callback(err, null)
 		}
@@ -59,11 +60,14 @@ export default function(opt, callback) {
 
 			hook_router(app, controllers)
 
+			passport(user)
+
 			const server = createServer(app);
 			server.listen(setting.port, () => {
-				callback(null, {
+				return callback(null, {
 					port: setting.port,
-					mode: mode
+					mode: mode,
+					db: result
 				})
 			})
 		})

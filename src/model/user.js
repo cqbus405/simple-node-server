@@ -28,4 +28,6 @@ module.exports = function(orm, db) {
 		cache: false,
 		timestamp: true
 	})
+
+	return User
 }
