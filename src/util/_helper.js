@@ -3,6 +3,7 @@ import callsite from 'callsite'
 import fs from 'fs'
 import bcrypt from 'bcrypt'
 import getLogger from '../lib/log4js'
+import config from '../config/settings'
 
 const logger = getLogger('helper')
 
@@ -37,7 +38,10 @@ export function remoteDirname(file_name) {
 	return path.join(path.dirname(requester), file_name)
 }
 
-export function encrypt(password, saltRounds, User, callback) {
+export function encrypt(req, password, callback) {
+	let mode = req.mode
+	const saltRounds = config[mode].salt_round
+
 	bcrypt.hash(password, saltRounds, (err, hash) => {
 		if (err) {
 			logger.error(err)
@@ -57,4 +61,13 @@ export function compare(password, hash, callback) {
 
 		return callback(null, res)
 	})
+}
+
+export function checkInput(input, category, res) {
+	if (!input) {
+		return res.json({
+			status: 500,
+			msg: `Invalid ${category}.`
+		})
+	}
 }

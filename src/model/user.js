@@ -18,16 +18,21 @@ module.exports = function(orm, db) {
 		role: {
 			type: 'integer'
 		},
-		createdAt: {
+		created: {
 			type: 'date'
 		},
-		modifiedAt: {
+		modified: {
 			type: 'date'
 		},
+		token: {
+			type: 'text'
+		},
+		tokenCreated: {
+			type: 'date',
+			mapsTo: 'token_created'
+		}
 	}, {
 		cache: false,
 		timestamp: true
 	})
-
-	return User
 }

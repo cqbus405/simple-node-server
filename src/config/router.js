@@ -19,6 +19,7 @@ export default function(app, controllers) {
     session: false
   }), controllers.product.getProducts)
 
+  app.post('/user/signup', controllers.user.signUp)
   app.post('/user/login', passport.authenticate('local'), controllers.user.login)
   app.get('/user/list', controllers.user.getUsers)
 }
