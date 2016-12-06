@@ -1,6 +1,8 @@
 import passport from 'passport'
 import getLogger from '../lib/log4js'
 import * as util from '../util/_helper'
+import jwt from 'jwt-simple'
+import config from '../config/settings'
 
 const logger = getLogger('controller-user')
 
@@ -23,12 +25,31 @@ export function getUsers(req, res, next) {
 }
 
 export function login(req, res, next) {
-	return res.json({
-		status: 200,
-		msg: 'Login success',
-		data: {
-			token: req.user.email
+	let user = req.user
+	let tokenSecret = config[req.mode].token_secret
+	let token = jwt.encode({
+		id: user.id
+	}, tokenSecret)
+
+	user.token = token
+	user.tokenCreated = new Date()
+
+	user.save(err => {
+		if (err) {
+			logger.error(err)
+			return res.json({
+				status: 500,
+				msg: err
+			})
 		}
+
+		return res.json({
+			status: 200,
+			msg: 'Login success.',
+			data: {
+				token: token
+			}
+		})
 	})
 }
 
