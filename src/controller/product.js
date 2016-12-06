@@ -228,7 +228,7 @@ export function getProducts(req, res, next) {
       pageNumber = 1
     }
 
-    Product.page(pageNumber, (err, offset) => {
+    Product.page(pageNumber, (offset) => {
       const db = req.db
       db.driver.execQuery(`select * from product limit ${pageItemCount} offset ${offset}`, (err, products) => {
         if (err) {
