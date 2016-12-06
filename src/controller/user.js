@@ -105,7 +105,10 @@ export function signUp(req, res, next) {
 		})
 	}
 
-	util.encrypt(req, password, (err, hash) => {
+	const User = req.models.user
+	User.exists({
+		email: email
+	}, (err, isExist) => {
 		if (err) {
 			logger.error(err)
 			return res.json({
@@ -114,20 +117,14 @@ export function signUp(req, res, next) {
 			})
 		}
 
-		let encryptedPwd = hash
-		let created = new Date()
-
-		let newUser = {
-			email: email,
-			password: encryptedPwd,
-			name: name,
-			role: role,
-			created: created
+		if (isExist) {
+			return res.json({
+				status: 500,
+				msg: 'The email is already used.'
+			})
 		}
 
-		let User = req.models.user
-
-		User.create(newUser, (err, user) => {
+		util.encrypt(req, password, (err, hash) => {
 			if (err) {
 				logger.error(err)
 				return res.json({
@@ -136,10 +133,33 @@ export function signUp(req, res, next) {
 				})
 			}
 
-			return res.json({
-				status: 200,
-				msg: 'Sign up success.',
-				data: user
+			let encryptedPwd = hash
+			let created = new Date()
+
+			let newUser = {
+				email: email,
+				password: encryptedPwd,
+				name: name,
+				role: role,
+				created: created
+			}
+
+			let User = req.models.user
+
+			User.create(newUser, (err, user) => {
+				if (err) {
+					logger.error(err)
+					return res.json({
+						status: 500,
+						msg: err
+					})
+				}
+
+				return res.json({
+					status: 200,
+					msg: 'Sign up success.',
+					data: user
+				})
 			})
 		})
 	})
