@@ -62,12 +62,3 @@ export function compare(password, hash, callback) {
 		return callback(null, res)
 	})
 }
-
-export function checkInput(input, category, res) {
-	if (!input) {
-		return res.json({
-			status: 500,
-			msg: `Invalid ${category}.`
-		})
-	}
-}

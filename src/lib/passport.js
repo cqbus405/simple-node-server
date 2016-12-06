@@ -24,9 +24,9 @@ export default function(User) {
   passport.use(new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password'
-  }, (username, password, done) => {
+  }, (email, password, done) => {
     User.one({
-      email: username
+      email: email
     }, (err, user) => {
       if (err) {
         logger.error(err)
@@ -35,13 +35,7 @@ export default function(User) {
 
       if (!user) {
         return done(null, false, {
-          message: 'Incorrect username.'
-        })
-      }
-
-      if (!user.password) {
-        return done(null, false, {
-          message: 'Invalid password.'
+          msg: 'Incorrect username.'
         })
       }
 
@@ -53,7 +47,7 @@ export default function(User) {
 
         if (!res) {
           return done(null, false, {
-            message: 'Incorrect password.'
+            msg: 'Incorrect password.'
           })
         }
 

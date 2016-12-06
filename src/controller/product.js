@@ -4,128 +4,74 @@ import passport from 'passport'
 const logger = getLogger('controller-product');
 
 export function addProduct(req, res, next) {
-  const product = req.body.product
-
-  if (!product) {
-    return res.json({
-      status: 500,
-      msg: 'no input data'
-    })
-  }
-
-  const name = product.name
-  const description = product.description
-  const specification = product.specification
-  const coverPicture = product.cover_picture
-
-  const baseErrMsg = 'cannot be null'
-
-  if (!name) {
-    return res.json({
-      status: 500,
-      msg: `name ${baseErrMsg}`
-    })
-  }
-
-  if (!description) {
-    return res.json({
-      status: 500,
-      msg: `description ${baseErrMsg}`
-    })
-  }
-
-  if (!specification) {
-    return res.json({
-      status: 500,
-      msg: `specification ${baseErrMsg}`
-    })
-  }
-
-  if (!coverPicture) {
-    return res.json({
-      status: 500,
-      msg: `cover picture ${baseErrMsg}`
-    })
-  }
-
-  product.coverPicture = coverPicture;
-  product.created = new Date()
-
-  const Product = req.models.product
-
-  Product.create(product, (err, results) => {
+  passport.authenticate('bearer', {
+    session: false
+  }, (err, user, info) => {
     if (err) {
       logger.error(err)
-
       return res.json({
         status: 500,
         msg: err
       })
     }
 
-    return res.json({
-      satus: 200,
-      msg: 'add the product successfully',
-      data: results
-    })
-  })
-}
-
-export function editProduct(req, res, next) {
-  const updatedProduct = req.body.product
-  if (!updatedProduct) {
-    return res.json({
-      status: 500,
-      msg: 'no input data'
-    })
-  }
-
-  const id = updatedProduct.id
-  if (!id) {
-    return res.json({
-      status: 500,
-      msg: 'invalid item'
-    })
-  }
-
-  const Product = req.models.product
-  Product.get(id, (err, product) => {
-    if (err) {
-      logger.error(err)
-
+    if (!user) {
       return res.json({
         status: 500,
-        msg: err
+        msg: 'Unauthorized user.'
       })
     }
 
-    if (updatedProduct['name']) {
-      product.name = updatedProduct['name']
+    const product = req.body.product
+
+    if (!product) {
+      return res.json({
+        status: 500,
+        msg: 'no input data'
+      })
     }
 
-    if (updatedProduct['description']) {
-      product.description = updatedProduct['description']
+    const name = product.name
+    const description = product.description
+    const specification = product.specification
+    const coverPicture = product.cover_picture
+
+    const baseErrMsg = 'cannot be null'
+
+    if (!name) {
+      return res.json({
+        status: 500,
+        msg: `name ${baseErrMsg}`
+      })
     }
 
-    if (updatedProduct['video_url']) {
-      product.videoUrl = updatedProduct['video_url']
+    if (!description) {
+      return res.json({
+        status: 500,
+        msg: `description ${baseErrMsg}`
+      })
     }
 
-    if (updatedProduct['picture_url']) {
-      product.pictureUrl = updatedProduct['pictureUrl']
+    if (!specification) {
+      return res.json({
+        status: 500,
+        msg: `specification ${baseErrMsg}`
+      })
     }
 
-    if (updatedProduct['specification']) {
-      product.specification = updatedProduct['specification']
+    if (!coverPicture) {
+      return res.json({
+        status: 500,
+        msg: `cover picture ${baseErrMsg}`
+      })
     }
 
-    if (updatedProduct['cover_picture']) {
-      product.coverPicture = updatedProduct['cover_picture']
-    }
+    product.coverPicture = coverPicture;
+    product.created = new Date()
 
-    product.modified = new Date()
+    const Product = req.models.product
 
-    product.save(err => {
+    Product.create(product, (err, results) => {
       if (err) {
         logger.error(err)
 
@@ -136,82 +82,18 @@ export function editProduct(req, res, next) {
       }
 
       return res.json({
-        status: 200,
-        msg: 'update the product successfully',
+        satus: 200,
+        msg: 'add the product successfully',
+        data: results
       })
     })
-  })
+  })(req, res, next)
 }
 
-export function removeProduct(req, res, next) {
-  const id = req.params.id
-  if (!id) {
-    return res.json({
-      status: 500,
-      msg: 'invalid item'
-    })
-  }
-
-  const Product = req.models.product
-  Product.get(id, (err, product) => {
-    if (err) {
-      let msg
-
-      if (err.message === 'Not found') {
-        msg = 'item not found'
-      } else {
-        logger.error(err)
-        msg = err
-      }
-
-      return res.json({
-        status: 500,
-        msg: msg
-      })
-    }
-
-    product.remove(err => {
-      let msg
-
-      if (err) {
-        logger.error(err)
-
-        return res.json({
-          status: 500,
-          msg: msg
-        })
-      }
-
-      return res.json({
-        status: 200,
-        msg: 'item removed'
-      })
-    })
-  })
-}
-
-export function getProducts(req, res, next) {
-  let pageItemCount = req.query.page_item_count
-  let pageNumber = req.query.page_number
-
-  if (!pageItemCount || pageItemCount <= 0) {
-    return res.json({
-      status: 500,
-      msg: 'invalid item count'
-    })
-  }
-
-  if (!pageNumber || pageNumber <= 0) {
-    return res.json({
-      status: 500,
-      msg: 'invalid page number'
-    })
-  }
-
-  const Product = req.models.product
-  Product.settings.set('pagination.perpage', pageItemCount)
-
-  Product.pages((err, pages) => {
+export function editProduct(req, res, next) {
+  passport.authenticate('bearer', {
+    session: false
+  }, (err, user, info) => {
     if (err) {
       logger.error(err)
       return res.json({
@@ -220,31 +102,225 @@ export function getProducts(req, res, next) {
       })
     }
 
-    if (pageNumber >= pages) {
-      pageNumber = pages
+    if (!user) {
+      return res.json({
+        status: 500,
+        msg: 'Unauthorized user.'
+      })
     }
 
-    if (pageNumber <= 0) {
-      pageNumber = 1
+    const updatedProduct = req.body.product
+    if (!updatedProduct) {
+      return res.json({
+        status: 500,
+        msg: 'no input data'
+      })
     }
 
-    Product.page(pageNumber, (offset) => {
-      const db = req.db
-      db.driver.execQuery(`select * from product limit ${pageItemCount} offset ${offset}`, (err, products) => {
+    const id = updatedProduct.id
+    if (!id) {
+      return res.json({
+        status: 500,
+        msg: 'invalid item'
+      })
+    }
+
+    const Product = req.models.product
+    Product.get(id, (err, product) => {
+      if (err) {
+        logger.error(err)
+
+        return res.json({
+          status: 500,
+          msg: err
+        })
+      }
+
+      if (updatedProduct['name']) {
+        product.name = updatedProduct['name']
+      }
+
+      if (updatedProduct['description']) {
+        product.description = updatedProduct['description']
+      }
+
+      if (updatedProduct['video_url']) {
+        product.videoUrl = updatedProduct['video_url']
+      }
+
+      if (updatedProduct['picture_url']) {
+        product.pictureUrl = updatedProduct['pictureUrl']
+      }
+
+      if (updatedProduct['specification']) {
+        product.specification = updatedProduct['specification']
+      }
+
+      if (updatedProduct['cover_picture']) {
+        product.coverPicture = updatedProduct['cover_picture']
+      }
+
+      product.modified = new Date()
+
+      product.save(err => {
         if (err) {
           logger.error(err)
+
           return res.json({
-            satus: 500,
+            status: 500,
             msg: err
           })
         }
 
         return res.json({
           status: 200,
-          msg: 'success',
-          data: products
+          msg: 'update the product successfully',
         })
       })
     })
-  })
+  })(req, res, next)
+}
+
+export function removeProduct(req, res, next) {
+  passport.authenticate('bearer', {
+    session: false
+  }, (err, user, info) => {
+    if (err) {
+      logger.error(err)
+      return res.json({
+        status: 500,
+        msg: err
+      })
+    }
+
+    if (!user) {
+      return res.json({
+        status: 500,
+        msg: 'Unauthorized user.'
+      })
+    }
+
+    const id = req.params.id
+    if (!id) {
+      return res.json({
+        status: 500,
+        msg: 'invalid item'
+      })
+    }
+
+    const Product = req.models.product
+    Product.get(id, (err, product) => {
+      if (err) {
+        let msg
+
+        if (err.message === 'Not found') {
+          msg = 'item not found'
+        } else {
+          logger.error(err)
+          msg = err
+        }
+
+        return res.json({
+          status: 500,
+          msg: msg
+        })
+      }
+
+      product.remove(err => {
+        let msg
+
+        if (err) {
+          logger.error(err)
+
+          return res.json({
+            status: 500,
+            msg: msg
+          })
+        }
+
+        return res.json({
+          status: 200,
+          msg: 'item removed'
+        })
+      })
+    })
+  })(req, res, next)
+}
+
+export function findProducts(req, res, next) {
+  passport.authenticate('bearer', {
+    session: false
+  }, (err, user, info) => {
+    if (err) {
+      logger.error(err)
+      return res.json({
+        status: 500,
+        msg: err
+      })
+    }
+
+    if (!user) {
+      return res.json({
+        status: 500,
+        msg: 'Unauthorized user.'
+      })
+    }
+
+    let pageItemCount = req.query.page_item_count
+    let pageNumber = req.query.page_number
+
+    if (!pageItemCount || pageItemCount <= 0) {
+      return res.json({
+        status: 500,
+        msg: 'invalid item count'
+      })
+    }
+
+    if (!pageNumber || pageNumber <= 0) {
+      return res.json({
+        status: 500,
+        msg: 'invalid page number'
+      })
+    }
+
+    const Product = req.models.product
+    Product.settings.set('pagination.perpage', pageItemCount)
+
+    Product.pages((err, pages) => {
+      if (err) {
+        logger.error(err)
+        return res.json({
+          status: 500,
+          msg: err
+        })
+      }
+
+      if (pageNumber >= pages) {
+        pageNumber = pages
+      }
+
+      if (pageNumber <= 0) {
+        pageNumber = 1
+      }
+
+      Product.page(pageNumber, (offset) => {
+        const db = req.db
+        db.driver.execQuery(`select * from product limit ${pageItemCount} offset ${offset}`, (err, products) => {
+          if (err) {
+            logger.error(err)
+            return res.json({
+              satus: 500,
+              msg: err
+            })
+          }
+
+          return res.json({
+            status: 200,
+            msg: 'success',
+            data: products
+          })
+        })
+      })
+    })
+  })(req, res, next)
 }

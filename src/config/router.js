@@ -6,20 +6,12 @@ export default function(app, controllers) {
     return res.sendFile(path.resolve(__dirname, '../../public/html/index.html'))
   })
 
-  app.post('/product/add', passport.authenticate('bearer', {
-    session: false
-  }), controllers.product.addProduct)
-  app.post('/product/edit', passport.authenticate('bearer', {
-    session: false
-  }), controllers.product.editProduct)
-  app.delete('/product/:id', passport.authenticate('bearer', {
-    session: false
-  }), controllers.product.removeProduct)
-  app.get('/product/list', passport.authenticate('bearer', {
-    session: false
-  }), controllers.product.getProducts)
+  app.post('/product/add', controllers.product.addProduct)
+  app.post('/product/edit', controllers.product.editProduct)
+  app.delete('/product/:id', controllers.product.removeProduct)
+  app.get('/product/list', controllers.product.findProducts)
 
   app.post('/user/signup', controllers.user.signUp)
-  app.post('/user/login', passport.authenticate('local'), controllers.user.login)
-  app.get('/user/list', controllers.user.getUsers)
+  app.post('/user/login', controllers.user.login)
+  app.get('/user/list', controllers.user.findUsers)
 }

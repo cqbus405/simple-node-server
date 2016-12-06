@@ -3,10 +3,7 @@ module.exports = function(orm, db) {
 		id: {
 			type: 'serial',
 		},
-		firstname: {
-			type: 'text'
-		},
-		lastname: {
+		name: {
 			type: 'text'
 		},
 		email: {
