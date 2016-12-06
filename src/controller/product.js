@@ -22,6 +22,13 @@ export function addProduct(req, res, next) {
       })
     }
 
+    if (user.role !== 0) {
+      return res.json({
+        status: 500,
+        msg: 'No authority.'
+      })
+    }
+
     const product = req.body.product
 
     if (!product) {
@@ -106,6 +113,13 @@ export function editProduct(req, res, next) {
       return res.json({
         status: 500,
         msg: 'Unauthorized user.'
+      })
+    }
+
+    if (user.role !== 0) {
+      return res.json({
+        status: 500,
+        msg: 'No authority.'
       })
     }
 
@@ -200,6 +214,13 @@ export function removeProduct(req, res, next) {
       })
     }
 
+    if (user.role !== 0) {
+      return res.json({
+        status: 500,
+        msg: 'No authority.'
+      })
+    }
+
     const id = req.params.id
     if (!id) {
       return res.json({
@@ -263,6 +284,13 @@ export function findProducts(req, res, next) {
       return res.json({
         status: 500,
         msg: 'Unauthorized user.'
+      })
+    }
+
+    if (user.role !== 0) {
+      return res.json({
+        status: 500,
+        msg: 'No authority.'
       })
     }
 
