@@ -1,5 +1,6 @@
 import getLogger from '../lib/log4js'
 import passport from 'passport'
+import * as util from '../util/_helper'
 
 const logger = getLogger('controller-product');
 
@@ -294,7 +295,7 @@ export function findProducts(req, res, next) {
       })
     }
 
-    let pageItemCount = req.query.page_item_count
+    let pageItemCount = parseInt(req.query.page_item_count)
     let pageNumber = req.query.page_number
 
     if (!pageItemCount || pageItemCount <= 0) {
@@ -312,9 +313,7 @@ export function findProducts(req, res, next) {
     }
 
     const Product = req.models.product
-    Product.settings.set('pagination.perpage', pageItemCount)
-
-    Product.pages((err, pages) => {
+    util.paging(Product, pageNumber, pageItemCount, (err, offset) => {
       if (err) {
         logger.error(err)
         return res.json({
@@ -323,30 +322,20 @@ export function findProducts(req, res, next) {
         })
       }
 
-      if (pageNumber >= pages) {
-        pageNumber = pages
-      }
-
-      if (pageNumber <= 0) {
-        pageNumber = 1
-      }
-
-      Product.page(pageNumber, (offset) => {
-        const db = req.db
-        db.driver.execQuery(`select * from product limit ${pageItemCount} offset ${offset}`, (err, products) => {
-          if (err) {
-            logger.error(err)
-            return res.json({
-              satus: 500,
-              msg: err
-            })
-          }
-
+      const db = req.db
+      db.driver.execQuery(`select * from product order by id desc limit ${pageItemCount} offset ${offset}`, (err, products) => {
+        if (err) {
+          logger.error(err)
           return res.json({
-            status: 200,
-            msg: 'success',
-            data: products
+            satus: 500,
+            msg: err
           })
+        }
+
+        return res.json({
+          status: 200,
+          msg: 'success',
+          data: products
         })
       })
     })

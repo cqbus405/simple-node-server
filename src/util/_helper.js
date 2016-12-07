@@ -62,3 +62,25 @@ export function compare(password, hash, callback) {
 		return callback(null, res)
 	})
 }
+
+export function paging(Model, page, perpage, callback) {
+	Model.count((err, count) => {
+		if (err) {
+			return callback(err)
+		}
+
+		let pages = Math.ceil(count / perpage)
+
+		if (page >= pages) {
+			page = pages
+		}
+
+		if (page <= 0) {
+			page = 1
+		}
+
+		let offset = (page - 1) * perpage
+
+		return callback(null, offset)
+	})
+}

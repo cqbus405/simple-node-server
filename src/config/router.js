@@ -13,5 +13,6 @@ export default function(app, controllers) {
 
   app.post('/user/signup', controllers.user.signUp)
   app.post('/user/login', controllers.user.login)
+  app.post('/user/logout', controllers.user.logout)
   app.get('/user/list', controllers.user.findUsers)
 }

@@ -7,21 +7,38 @@ import config from '../config/settings'
 const logger = getLogger('controller-user')
 
 export function findUsers(req, res, next) {
-	const User = req.models.user
-
-	User.all((err, users) => {
+	passport.authenticate('bearer', (err, user, info) => {
 		if (err) {
+			logger.error(err)
 			return res.json({
 				status: 500,
 				msg: err
 			})
 		}
 
-		return res.json({
-			status: 200,
-			data: users
+		if (!user) {
+			return res.json({
+				status: 500,
+				msg: 'Unauthorized user.'
+			})
+		}
+
+		const User = req.models.user
+
+		User.all((err, users) => {
+			if (err) {
+				return res.json({
+					status: 500,
+					msg: err
+				})
+			}
+
+			return res.json({
+				status: 200,
+				data: users
+			})
 		})
-	})
+	})(req, res, next)
 }
 
 export function login(req, res, next) {
@@ -34,7 +51,7 @@ export function login(req, res, next) {
 			})
 		}
 
-		if (info) {
+		if (!user && info) {
 			return res.json({
 				status: 500,
 				msg: info.msg
@@ -69,13 +86,48 @@ export function login(req, res, next) {
 	})(req, res, next)
 }
 
+export function logout(req, res, next) {
+	passport.authenticate('bearer', (err, user, info) => {
+		if (err) {
+			logger.error(err)
+			return res.json({
+				status: 500,
+				msg: err
+			})
+		}
+
+		if (!user) {
+			return res.json({
+				status: 500,
+				msg: 'Unauthorized user'
+			})
+		}
+
+		user.token = null
+		user.tokenCreated = null
+
+		user.save(err => {
+			if (err) {
+				logger.error(err)
+				return res.json({
+					status: 500,
+					msg: err
+				})
+			}
+
+			return res.json({
+				status: 200,
+				msg: 'Logout success.'
+			})
+		})
+	})(req, res, next)
+}
+
 export function signUp(req, res, next) {
 	let email = req.body.email
 	let password = req.body.password
 	let name = req.body.name
 	let role = req.body.role
-
-	logger.debug('===> body: ' + JSON.stringify(req.body) + '\n')
 
 	if (!email) {
 		return res.json({
