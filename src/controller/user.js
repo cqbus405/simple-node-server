@@ -79,7 +79,7 @@ export function login(req, res, next) {
 				status: 200,
 				msg: 'Login success.',
 				data: {
-					token: token
+					user
 				}
 			})
 		})
