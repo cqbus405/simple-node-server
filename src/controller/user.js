@@ -54,7 +54,7 @@ export function login(req, res, next) {
 		if (!user && info) {
 			return res.json({
 				status: 500,
-				msg: info.msg
+				msg: info.msg ? info.msg : info.message
 			})
 		}
 
