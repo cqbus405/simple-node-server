@@ -39,10 +39,16 @@ export function addProduct(req, res, next) {
       })
     }
 
+    // 必填内容
     const name = product.name
     const description = product.description
     const specification = product.specification
     const coverPicture = product.cover_picture
+
+    // 可选内容
+    const videoUrl = product.video_url
+    const pictureUrl = product.picture_url
+    const specificationPicture = product.specification_picture
 
     const baseErrMsg = 'cannot be null'
 
@@ -72,6 +78,18 @@ export function addProduct(req, res, next) {
         status: 500,
         msg: `cover picture ${baseErrMsg}`
       })
+    }
+
+    if (videoUrl) {
+      product.videoUrl = videoUrl
+    }
+
+    if (pictureUrl) {
+      product.pictureUrl = pictureUrl
+    }
+
+    if (specificationPicture) {
+      product.specificationPicture = specificationPicture
     }
 
     product.coverPicture = coverPicture;
