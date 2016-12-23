@@ -81,6 +81,6 @@ export function paging(Model, page, perpage, callback) {
 
 		let offset = (page - 1) * perpage
 
-		return callback(null, offset)
+		return callback(null, offset, count)
 	})
 }

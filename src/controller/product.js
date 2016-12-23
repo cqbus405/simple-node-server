@@ -1,6 +1,7 @@
 import getLogger from '../lib/log4js'
 import passport from 'passport'
 import * as util from '../util/_helper'
+// import moment from 'moment'
 
 const logger = getLogger('controller-product');
 
@@ -331,7 +332,7 @@ export function findProducts(req, res, next) {
     }
 
     const Product = req.models.product
-    util.paging(Product, pageNumber, pageItemCount, (err, offset) => {
+    util.paging(Product, pageNumber, pageItemCount, (err, offset, total) => {
       if (err) {
         logger.error(err)
         return res.json({
@@ -350,10 +351,22 @@ export function findProducts(req, res, next) {
           })
         }
 
+        // if (products) {
+        //   products.map(product => {
+        //     product.created = moment(product.created).format('YYYY-MM-DD hh:mm:ss')
+        //     if (product.modified) {
+        //       product.modified = moment(product.modified).format('YYYY-MM-DD hh:mm:ss')
+        //     }
+        //   })
+        // }
+
         return res.json({
           status: 200,
           msg: 'success',
-          data: products
+          data: { 
+            products: products,
+            total: total
+          }
         })
       })
     })
