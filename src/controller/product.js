@@ -1,7 +1,7 @@
 import getLogger from '../lib/log4js'
 import passport from 'passport'
 import * as util from '../util/_helper'
-// import moment from 'moment'
+import moment from 'moment'
 
 const logger = getLogger('controller-product');
 
@@ -351,19 +351,19 @@ export function findProducts(req, res, next) {
           })
         }
 
-        // if (products) {
-        //   products.map(product => {
-        //     product.created = moment(product.created).format('YYYY-MM-DD hh:mm:ss')
-        //     if (product.modified) {
-        //       product.modified = moment(product.modified).format('YYYY-MM-DD hh:mm:ss')
-        //     }
-        //   })
-        // }
+        if (products) {
+          products.map(product => {
+            product.created = moment(product.created).format('YYYY-MM-DD hh:m:ss a')
+            if (product.modified) {
+              product.modified = moment(product.modified).format('YYYY-MM-DD hh:m:ss a')
+            }
+          })
+        }
 
         return res.json({
           status: 200,
           msg: 'success',
-          data: { 
+          data: {
             products: products,
             total: total
           }
