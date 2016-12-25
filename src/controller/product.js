@@ -1,7 +1,7 @@
 import getLogger from '../lib/log4js'
 import passport from 'passport'
 import * as util from '../util/_helper'
-// import moment from 'moment'
+import moment from 'moment'
 
 const logger = getLogger('controller-product');
 
@@ -314,8 +314,8 @@ export function findProducts(req, res, next) {
       })
     }
 
-    let pageItemCount = parseInt(req.query.page_item_count)
-    let pageNumber = req.query.page_number
+    const pageItemCount = parseInt(req.query.page_item_count)
+    const pageNumber = parseInt(req.query.page_number)
 
     if (!pageItemCount || pageItemCount <= 0) {
       return res.json({
@@ -332,7 +332,7 @@ export function findProducts(req, res, next) {
     }
 
     const Product = req.models.product
-    util.paging(Product, pageNumber, pageItemCount, (err, offset, total) => {
+    util.paging(Product, pageNumber, pageItemCount, (err, offset, pages) => {
       if (err) {
         logger.error(err)
         return res.json({
@@ -351,21 +351,21 @@ export function findProducts(req, res, next) {
           })
         }
 
-        // if (products) {
-        //   products.map(product => {
-        //     product.created = moment(product.created).format('YYYY-MM-DD hh:mm:ss')
-        //     if (product.modified) {
-        //       product.modified = moment(product.modified).format('YYYY-MM-DD hh:mm:ss')
-        //     }
-        //   })
-        // }
+        if (products) {
+          products.map(product => {
+            product.created = moment(product.created).format('YYYY-MM-DD hh:mm:ss a')
+            if (product.modified) {
+              product.modified = moment(product.modified).format('YYYY-MM-DD hh:mm:ss a')
+            }
+          })
+        }
 
         return res.json({
           status: 200,
           msg: 'success',
-          data: { 
+          data: {
             products: products,
-            total: total
+            pages: pages
           }
         })
       })
