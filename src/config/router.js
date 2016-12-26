@@ -10,6 +10,7 @@ export default function(app, controllers) {
   app.post('/product/edit', controllers.product.editProduct)
   app.delete('/product/:id', controllers.product.removeProduct)
   app.get('/product/list', controllers.product.findProducts)
+  app.get('/product/:id', controllers.product.findProductByPrimaryKey)
 
   app.post('/user/signup', controllers.user.signUp)
   app.post('/user/login', controllers.user.login)

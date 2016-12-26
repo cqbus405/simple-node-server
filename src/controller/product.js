@@ -314,8 +314,8 @@ export function findProducts(req, res, next) {
       })
     }
 
-    let pageItemCount = parseInt(req.query.page_item_count)
-    let pageNumber = req.query.page_number
+    const pageItemCount = parseInt(req.query.page_item_count)
+    const pageNumber = parseInt(req.query.page_number)
 
     if (!pageItemCount || pageItemCount <= 0) {
       return res.json({
@@ -332,7 +332,7 @@ export function findProducts(req, res, next) {
     }
 
     const Product = req.models.product
-    util.paging(Product, pageNumber, pageItemCount, (err, offset, total) => {
+    util.paging(Product, pageNumber, pageItemCount, (err, offset, pages) => {
       if (err) {
         logger.error(err)
         return res.json({
@@ -353,9 +353,9 @@ export function findProducts(req, res, next) {
 
         if (products) {
           products.map(product => {
-            product.created = moment(product.created).format('YYYY-MM-DD hh:m:ss a')
+            product.created = moment(product.created).format('YYYY-MM-DD hh:mm:ssa')
             if (product.modified) {
-              product.modified = moment(product.modified).format('YYYY-MM-DD hh:m:ss a')
+              product.modified = moment(product.modified).format('YYYY-MM-DD hh:mm:ssa')
             }
           })
         }
@@ -365,9 +365,63 @@ export function findProducts(req, res, next) {
           msg: 'success',
           data: {
             products: products,
-            total: total
+            pages: pages
           }
         })
+      })
+    })
+  })(req, res, next)
+}
+
+export function findProductByPrimaryKey(req, res, next) {
+  passport.authenticate('bearer', {
+    session: false
+  }, (err, user, info) => {
+    if (err) {
+      logger.error(err)
+      return res.json({
+        status: 500,
+        msg: err
+      })
+    }
+
+    if (!user) {
+      return res.json({
+        status: 500,
+        msg: 'Unauthorized user.'
+      })
+    }
+
+    if (user.role !== 0) {
+      return res.json({
+        status: 500,
+        msg: 'No authority.'
+      })
+    }
+
+    const id = req.params.id
+    if (!id) {
+      return res.json({
+        status: 500,
+        msg: 'Invalid primary key'
+      })
+    }
+
+    const Product = req.models.product
+    Product.get(id, (err, product) => {
+      if (err) {
+        logger.error(err)
+
+        return res.json({
+          status: 500,
+          msg: err.message ? err.message : err
+        })
+      }
+
+      return res.json({
+        status: 200,
+        msg: 'Find product successfully',
+        data: product
       })
     })
   })(req, res, next)
