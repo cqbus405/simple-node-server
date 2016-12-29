@@ -353,9 +353,9 @@ export function findProducts(req, res, next) {
 
         if (products) {
           products.map(product => {
-            product.created = moment(product.created).format('YYYY-MM-DD hh:mm:ssa')
+            product.created = moment(product.created).format('YYYY-MM-DD h:mm:ssa')
             if (product.modified) {
-              product.modified = moment(product.modified).format('YYYY-MM-DD hh:mm:ssa')
+              product.modified = moment(product.modified).format('YYYY-MM-DD h:mm:ssa')
             }
           })
         }
@@ -417,6 +417,15 @@ export function findProductByPrimaryKey(req, res, next) {
           msg: err.message ? err.message : err
         })
       }
+
+      const created = moment(product.created).format('YYYY-MM-DD h:mm:ssa')
+      let modified = product.modified
+      if (modified) {
+        modified = moment(product.modified).format('YYYY-MM-DD h:mm:ssa')
+      }
+
+      product.created = created
+      product.modified = modified
 
       return res.json({
         status: 200,
