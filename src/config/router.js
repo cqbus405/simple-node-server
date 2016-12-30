@@ -8,7 +8,7 @@ export default function(app, controllers) {
 
   app.post('/product/add', controllers.product.addProduct)
   app.post('/product/edit', controllers.product.editProduct)
-  app.delete('/product/:id', controllers.product.removeProduct)
+  app.post('/product/delete', controllers.product.removeProductByPrimaryKey)
   app.get('/product/list', controllers.product.findProducts)
   app.get('/product/:id', controllers.product.findProductByPrimaryKey)
 

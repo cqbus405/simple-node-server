@@ -215,7 +215,7 @@ export function editProduct(req, res, next) {
   })(req, res, next)
 }
 
-export function removeProduct(req, res, next) {
+export function removeProductByPrimaryKey(req, res, next) {
   passport.authenticate('bearer', {
     session: false
   }, (err, user, info) => {
@@ -241,7 +241,7 @@ export function removeProduct(req, res, next) {
       })
     }
 
-    const id = req.params.id
+    const id = req.body.id
     if (!id) {
       return res.json({
         status: 500,
