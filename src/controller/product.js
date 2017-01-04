@@ -109,7 +109,7 @@ export function addProduct(req, res, next) {
       }
 
       return res.json({
-        satus: 200,
+        status: 200,
         msg: 'add the product successfully',
         data: results
       })
