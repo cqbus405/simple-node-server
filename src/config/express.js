@@ -2,6 +2,7 @@ import bodyParser from 'body-parser'
 import log4js from 'log4js'
 import getLogger from '../lib/log4js'
 import session from 'express-session'
+import cookieParser from 'cookie-parser'
 import passport from 'passport'
 
 let logger = getLogger('http')
@@ -12,6 +13,7 @@ export default function(app, express) {
   app.use(bodyParser.urlencoded({
     extended: true
   }))
+  app.use(cookieParser())
   app.use(session({
     secret: 'keyboard cat'
   }))
@@ -27,7 +29,7 @@ export default function(app, express) {
     res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
 
     if (req.method == 'OPTIONS') {
-      res.send(200);
+      res.sendStatus(200);
       /让options请求快速返回/
     } else {
       next();

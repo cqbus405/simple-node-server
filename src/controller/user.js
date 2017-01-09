@@ -51,6 +51,13 @@ export function login(req, res, next) {
 			})
 		}
 
+		if (!user && info) {
+			return res.json({
+				status: 500,
+				msg: info.msg ? info.msg : info.message
+			})
+		}
+
 		const captchaTxt = req.body.verification_code
 		if (!captchaTxt) {
 			return res.json({
@@ -59,14 +66,7 @@ export function login(req, res, next) {
 			})
 		}
 
-		if (!user && info) {
-			return res.json({
-				status: 500,
-				msg: info.msg ? info.msg : info.message
-			})
-		}
-
-		const captchaText = req.session.captcha
+		const captchaText = ''
 		if (captchaText !== captchaTxt) {
 			return res.json({
 				status: 500,
