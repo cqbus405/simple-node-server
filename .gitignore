@@ -4,3 +4,4 @@ log/
 !*/lib/
 lib/
 npm-debug.log
+.yarnclean

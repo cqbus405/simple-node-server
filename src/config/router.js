@@ -1,5 +1,8 @@
 import path from 'path'
 import passport from 'passport'
+import {
+  create
+} from 'svg-captcha'
 
 export default function(app, controllers) {
   app.get('/', function(req, res, next) {
@@ -16,4 +19,6 @@ export default function(app, controllers) {
   app.post('/user/login', controllers.user.login)
   app.post('/user/logout', controllers.user.logout)
   app.get('/user/list', controllers.user.findUsers)
+
+  app.get('/captcha', controllers.general.generateCaptcha)
 }

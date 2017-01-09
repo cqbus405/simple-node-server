@@ -51,10 +51,26 @@ export function login(req, res, next) {
 			})
 		}
 
+		const captchaTxt = req.body.verification_code
+		if (!captchaTxt) {
+			return res.json({
+				status: 500,
+				msg: 'verification code is required'
+			})
+		}
+
 		if (!user && info) {
 			return res.json({
 				status: 500,
 				msg: info.msg ? info.msg : info.message
+			})
+		}
+
+		const captchaText = req.session.captcha
+		if (captchaText !== captchaTxt) {
+			return res.json({
+				status: 500,
+				msg: 'Verification code is incorrect'
 			})
 		}
 
