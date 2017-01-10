@@ -3,6 +3,9 @@ import getLogger from '../lib/log4js'
 import * as util from '../util/_helper'
 import jwt from 'jwt-simple'
 import config from '../config/settings'
+import {
+	redisClient
+} from '../lib/redis'
 
 const logger = getLogger('controller-user')
 
@@ -66,23 +69,7 @@ export function login(req, res, next) {
 			})
 		}
 
-		const captchaText = ''
-		if (captchaText !== captchaTxt) {
-			return res.json({
-				status: 500,
-				msg: 'Verification code is incorrect'
-			})
-		}
-
-		let tokenSecret = config[req.mode].token_secret
-		let token = jwt.encode({
-			id: user.id
-		}, tokenSecret)
-
-		user.token = token
-		user.tokenCreated = new Date()
-
-		user.save(err => {
+		redisClient.get('captchaText', (err, reply) => {
 			if (err) {
 				logger.error(err)
 				return res.json({
@@ -91,13 +78,47 @@ export function login(req, res, next) {
 				})
 			}
 
-			return res.json({
-				status: 200,
-				msg: 'Login success.',
-				data: {
-					user
+			if (reply) {
+				const replyCap = reply.toUpperCase()
+				const captchaTxtCap = captchaTxt.toUpperCase()
+
+				console.log('reply: ' + replyCap + ' captchaTxtCap: ' + captchaTxtCap)
+
+				if (captchaTxtCap !== replyCap) {
+					return res.json({
+						status: 500,
+						msg: 'Verification code is incorrect'
+					})
 				}
-			})
+
+				redisClient.set('captchaText', null)
+
+				let tokenSecret = config[req.mode].token_secret
+				let token = jwt.encode({
+					id: user.id
+				}, tokenSecret)
+
+				user.token = token
+				user.tokenCreated = new Date()
+
+				user.save(err => {
+					if (err) {
+						logger.error(err)
+						return res.json({
+							status: 500,
+							msg: err
+						})
+					}
+
+					return res.json({
+						status: 200,
+						msg: 'Login success.',
+						data: {
+							user
+						}
+					})
+				})
+			}
 		})
 	})(req, res, next)
 }
