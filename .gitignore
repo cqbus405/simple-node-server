@@ -5,3 +5,4 @@ log/
 lib/
 npm-debug.log
 .yarnclean
+dump.rdb
