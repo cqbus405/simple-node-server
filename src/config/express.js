@@ -9,7 +9,9 @@ let logger = getLogger('http')
 
 export default function(app, express) {
   app.use('/static', express.static('public'))
-  app.use(bodyParser.json())
+  app.use(bodyParser.json({
+    limit: '50mb' // default upload file size is 100kb
+  }))
   app.use(bodyParser.urlencoded({
     extended: true
   }))

@@ -9,6 +9,8 @@ export default function(app, controllers) {
     return res.sendFile(path.resolve(__dirname, '../../public/html/index.html'))
   })
 
+  app.post('/file/upload', controllers.upload.uploadFile)
+
   app.post('/product/add', controllers.product.addProduct)
   app.post('/product/edit', controllers.product.editProduct)
   app.post('/product/delete', controllers.product.removeProductByPrimaryKey)
