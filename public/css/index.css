@@ -1,53 +1,30 @@
-body {
-	background-image: url(../image/img4.jpg);
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-size: cover;
-	background-color: #464646;
-}
-
+@import url('https://fonts.googleapis.com/css?family=Lato');
 .container {
-	position: absolute;
-	width: 50%;
-	height: 50%;
-  margin: auto;
-  top: 0; left: 0; bottom: 0; right: 0;
-  text-align: center;
-  color: snow;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.h1 {
-	font-family: 'Oswald', sans-serif;
-	font-size:48pt;
-	padding: 12px;
-	margin: 0;
+.title {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.67em;
+    color: rgba(0, 0, 0, 0.87);
 }
 
-p {
-	font-family: 'Gruppo', cursive;
-	font-size: 10pt;
-	padding: 8px;
-	margin: 0;
-	text-align: justify;
-	line-height: 1.3;
-	word-spacing: 1.2px;
+.vice-title {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.125em;
+    color: rgba(0, 0, 0, 0.54);
 }
 
-.btn1 {
-	background-color: transparent;
-	padding: 18px 48px;
-	margin: 24px;
-	transition: 0.3s;
-	border: 1px solid snow;
-	display: inline-block;
-	text-decoration: none;
-	color: snow;
-	font-family: 'Gruppo', cursive;
-}
-
-.btn1:hover {
-	border: 1px solid #E0E0E0;
-	background-color: #E0E0E0;
-	color: black;
+.footer {
+    position: fixed;
+    bottom: 1%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.875em;
+    color: rgba(0, 0, 0, 0.26);
 }
