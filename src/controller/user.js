@@ -82,8 +82,6 @@ export function login(req, res, next) {
 				const replyCap = reply.toUpperCase()
 				const captchaTxtCap = captchaTxt.toUpperCase()
 
-				console.log('reply: ' + replyCap + ' captchaTxtCap: ' + captchaTxtCap)
-
 				if (captchaTxtCap !== replyCap) {
 					return res.json({
 						status: 500,
