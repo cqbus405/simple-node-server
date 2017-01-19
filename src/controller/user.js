@@ -89,7 +89,7 @@ export function login(req, res, next) {
 					})
 				}
 
-				redisClient.set('captchaText', null)
+				redisClient.set('captchaText', '')
 
 				let tokenSecret = config[req.mode].token_secret
 				let token = jwt.encode({
