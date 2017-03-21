@@ -1,11 +1,11 @@
 import passport from 'passport'
-import getLogger from '../lib/log4js'
-import * as util from '../util/_helper'
+import getLogger from '../util/_log4js'
+import * as util from '../util/helper'
 import jwt from 'jwt-simple'
-import config from '../config/settings'
+import config from '../config/appConfig'
 import {
 	redisClient
-} from '../lib/redis'
+} from '../util/_redis'
 
 const logger = getLogger('controller-user')
 

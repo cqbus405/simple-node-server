@@ -2,34 +2,38 @@ import path from 'path'
 import callsite from 'callsite'
 import fs from 'fs'
 import bcrypt from 'bcrypt'
-import getLogger from '../lib/log4js'
-import config from '../config/settings'
+
+import getLogger from './_log4js'
+import config from '../config/appConfig'
 
 const logger = getLogger('helper')
 
-export function listJSFiles(dir, callback) {
+export const listJSFiles = (dir, callback) => {
 	fs.readdir(dir, (err, files) => {
 		if (err) {
-			logger.error(err)
 			return callback(err, null)
 		}
 
-		let js_files = []
+		let jsFiles = []
 
 		for (let i = 0; i < files.length; i++) {
 			let file = files[i]
-			let file_path = path.join(dir, file)
+			let filePath = path.join(dir, file)
 
-			if (!fs.statSync(file_path).isFile()) continue
+			if (!fs.statSync(filePath).isFile()) {
+				continue
+			}
 
-			if (path.extname(file_path) === '.js') js_files.push(file_path)
+			if (path.extname(filePath) === '.js') {
+				jsFiles.push(filePath)
+			}
 		}
 
-		callback(null, js_files)
+		return callback(null, jsFiles)
 	})
 }
 
-export function remoteDirname(file_name) {
+export const remoteDirname = (file_name) => {
 	file_name = file_name || ''
 
 	const stack = callsite()
@@ -38,7 +42,7 @@ export function remoteDirname(file_name) {
 	return path.join(path.dirname(requester), file_name)
 }
 
-export function encrypt(req, password, callback) {
+export const encrypt = (req, password, callback) => {
 	let mode = req.mode
 	const saltRounds = config[mode].salt_round
 
@@ -52,7 +56,7 @@ export function encrypt(req, password, callback) {
 	})
 }
 
-export function compare(password, hash, callback) {
+export const compare = (password, hash, callback) => {
 	bcrypt.compare(password, hash, (err, res) => {
 		if (err) {
 			logger.error(err)
@@ -63,7 +67,7 @@ export function compare(password, hash, callback) {
 	})
 }
 
-export function paging(Model, page, perpage, callback) {
+export const paging = (Model, page, perpage, callback) => {
 	Model.count((err, count) => {
 		if (err) {
 			return callback(err)

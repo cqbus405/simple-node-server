@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "gulp"
+    "build": "babel src -d lib",
+    "start": "node ./lib/app.js"
   },
   "author": "qc",
   "license": "ISC",
@@ -30,6 +30,7 @@
     "svg-captcha": "^1.2.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.0",
     "babel-preset-latest": "^6.16.0",
     "del": "^2.2.2",
     "gulp": "^3.9.1",

@@ -6,7 +6,7 @@ import {
 
 export default function(app, controllers) {
   app.get('/', function(req, res, next) {
-    return res.sendFile(path.resolve(__dirname, '../../public/html/index.html'))
+    return res.sendFile(path.resolve(__dirname, '../../view/home.html'))
   })
 
   app.post('/file/upload', controllers.upload.uploadFile)
@@ -23,4 +23,8 @@ export default function(app, controllers) {
   app.get('/user/list', controllers.user.findUsers)
 
   app.get('/captcha', controllers.general.generateCaptcha)
+
+  app.get('*', function(req, res) {
+    res.status(404).send('404');
+  });
 }
