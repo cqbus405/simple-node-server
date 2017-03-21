@@ -7,7 +7,6 @@ export default {
     token_secret: '%lindsay27!',
     redis: {
       host: '66.1.33.112',
-      // host: '127.0.0.1',
       port: 6379
     },
     formidable: {
@@ -15,6 +14,11 @@ export default {
       keepExtensions: true,
       maxFieldsSize: 50 * 1024 * 1024,
       maxFields: 9
+    },
+    es: {
+      hosts: [
+        'http://66.1.33.112:9200'
+      ]
     }
   },
   prod: {
@@ -25,7 +29,6 @@ export default {
     token_secret: '%lindsay27!',
     redis: {
       host: '66.1.33.112',
-      // host: '127.0.0.1',
       port: 6379
     },
     formidable: {
@@ -33,6 +36,11 @@ export default {
       keepExtensions: true,
       maxFieldsSize: 50 * 1024 * 1024,
       maxFields: 9
+    },
+    es: {
+      hosts: [
+        'http://66.1.33.112:9200'
+      ]
     }
   }
 }
