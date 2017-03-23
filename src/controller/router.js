@@ -17,12 +17,12 @@ export default function(app, controllers) {
   app.get('/product/list', controllers.product.findProducts)
   app.get('/product/:id', controllers.product.findProductByPrimaryKey)
 
-  app.post('/user/signup', controllers.user.signUp)
   app.post('/user/login', controllers.user.login)
   app.post('/user/logout', controllers.user.logout)
-  app.get('/user/list', controllers.user.findUsers)
 
-  app.get('/captcha', controllers.general.generateCaptcha)
+  // app.post('/user/signup', controllers.user.signUp)
+  // app.get('/user/list', controllers.user.findUsers)
+  // app.get('/captcha', controllers.general.generateCaptcha)
 
   app.get('*', function(req, res) {
     res.status(404).send('404');

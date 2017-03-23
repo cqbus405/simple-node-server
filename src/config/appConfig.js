@@ -16,9 +16,8 @@ export default {
       maxFields: 9
     },
     es: {
-      hosts: [
-        'http://66.1.33.112:9200'
-      ]
+      host: 'http://66.1.33.112:9200',
+      index: 'index_v1'
     }
   },
   prod: {
@@ -38,9 +37,8 @@ export default {
       maxFields: 9
     },
     es: {
-      hosts: [
-        'http://66.1.33.112:9200'
-      ]
+      host: 'http://66.1.33.112:9200',
+      index: 'index_v1'
     }
   }
 }

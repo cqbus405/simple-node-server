@@ -1,59 +1,67 @@
-import client from '../util/_elasticsearch'
+import esClient from '../util/_elasticsearch'
+import config from '../config/appConfig'
 
-const indexName = process.argv[2]
+const mode = process.env.NODE_ENV ? process.env.NODE_ENV : 'dev'
+const indexName = config[mode].es.index
 
-if (!client.indices.exists(indexName)) {
-  console.log('The article index doesn\'t exist, creating...')
-}
+esClient.indices.exists({
+  index: indexName
+}).then(isExist => {
+  if (!isExist) {
+    console.log(`The ${indexName} doesn't exist, creating...`)
+    createArticleIndex(indexName)
+  } else {
+    console.log(`The ${indexName} already exists, all good`)
+  }
+}).then(err => {
+  if (err) {
+    console.log(err)
+  }
+})
 
 const createArticleIndex = indexName => {
   const body = {
-    "settings": {
-      "index": {
-        "number_of_shards": 2,
-        "number_of_replicas": 1,
-        "analysis": {
-          "analyzer": {
-            "case_sensitive": {
-              "type": "custom",
-              "tokenizer": "keyword"
-            }
-          }
-        }
-      }
-    },
     "mappings": {
-      "user": {
-        "_all": {
-          "enabled": false
-        },
+      "document": {
         "properties": {
           "title": {
             "type": "text"
           },
-          "name": {
+          "type": {
             "type": "text"
           },
-          "age": {
+          "tag": {
+            "type": "text"
+          },
+          "description": {
+            "type": "text"
+          },
+          "video_url": {
+            "type": "text"
+          },
+          "audio_url": {
+            "type": "text"
+          },
+          "picture_url": {
+            "type": "text"
+          },
+          "article": {
+            "type": "text"
+          },
+          "link": {
+            "type": "text"
+          },
+          "view": {
             "type": "integer"
-          }
-        }
-      },
-      "article": {
-        "_all": {
-          "enabled": false
-        },
-        "properties": {
-          "title": {
-            "type": "text"
           },
-          "body": {
-            "type": "text"
-          },
-          "user_id": {
+          "status": {
             "type": "keyword"
           },
           "created": {
+            "type": "date",
+            "format": "strict_date_optional_time||epoch_millis"
+          },
+          "modified": {
             "type": "date",
             "format": "strict_date_optional_time||epoch_millis"
           }
@@ -62,13 +70,16 @@ const createArticleIndex = indexName => {
     }
   }
 
-  client.indices.create({
+  esClient.indices.create({
     index: indexName,
     body: body
-  }, (err, result) => {
-    if (err) {
-      console.log('Create article index failed. ' + err)
+  }).then(resp => {
+    if (resp) {
+      console.log(`The ${indexName} create successfully.`)
     }
-    console.log('The article index create successfully.')
+  }).then(err => {
+    if (err) {
+      console.log(`Create ${indexName} failed. ` + err)
+    }
   })
 }
