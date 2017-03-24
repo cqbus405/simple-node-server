@@ -73,7 +73,7 @@ export const paging = (Model, page, perpage, callback) => {
 			return callback(err)
 		}
 
-		let pages = Math.ceil(count / perpage)
+		const pages = getPages(count, perpage)
 
 		if (page >= pages) {
 			page = pages
@@ -83,8 +83,18 @@ export const paging = (Model, page, perpage, callback) => {
 			page = 1
 		}
 
-		let offset = (page - 1) * perpage
+		const offset = getOffset
 
 		return callback(null, offset, pages)
 	})
+}
+
+export const getOffset = (page, perpage) => {
+	const offset = (page - 1) * perpage
+	return offset
+}
+
+export const getPages = (total, perpage) => {
+	const pages = Math.ceil(total / perpage)
+	return pages
 }

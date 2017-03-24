@@ -17,6 +17,8 @@ export default function(app, controllers) {
   app.get('/product/list', controllers.product.findProducts)
   app.get('/product/:id', controllers.product.findProductByPrimaryKey)
 
+  app.get('/document/list', controllers.document.findDocuments)
+
   app.post('/user/login', controllers.user.login)
   app.post('/user/logout', controllers.user.logout)
 
