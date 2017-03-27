@@ -3,7 +3,7 @@ import {
 } from 'svg-captcha'
 import {
   redisClient
-} from '../lib/redis'
+} from '../util/_redis'
 
 export function generateCaptcha(req, res) {
   const captcha = create({

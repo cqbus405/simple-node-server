@@ -1,6 +1,6 @@
 import formidable from 'formidable'
 import passport from 'passport'
-import settings from '../config/settings'
+import settings from '../config/appConfig'
 
 export const uploadFile = (req, res, next) => {
   passport.authenticate('bearer', {

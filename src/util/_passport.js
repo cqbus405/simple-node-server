@@ -4,13 +4,14 @@ import {
 import {
   Strategy as BearerStrategy
 } from 'passport-http-bearer'
-import getLogger from './log4js'
-import * as util from '../util/_helper'
 import passport from 'passport'
+
+import getLogger from './_log4js'
+import * as util from './helper'
 
 const logger = getLogger('passport')
 
-export default function(User) {
+export default User => {
   passport.serializeUser((user, done) => {
     done(null, user.id)
   })

@@ -1,7 +1,7 @@
 import path from 'path'
-import * as util from '../util/_helper'
+import * as util from './helper'
 
-export default function(controller_path, callback) {
+export default (controller_path, callback) => {
 	let controllers = {}
 
 	util.listJSFiles(controller_path, (err, files) => {
@@ -11,9 +11,10 @@ export default function(controller_path, callback) {
 
 		for (var i = 0; i < files.length; i++) {
 			let controller = path.basename(files[i], '.js')
-			controllers[controller] = require(files[i])
+			const file = files[i].replace('lib', '..')
+			controllers[controller] = require(file)
 		}
 
-		callback(null, controllers)
+		return callback(null, controllers)
 	})
 }

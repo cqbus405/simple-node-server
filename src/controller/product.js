@@ -1,6 +1,6 @@
-import getLogger from '../lib/log4js'
+import getLogger from '../util/_log4js'
 import passport from 'passport'
-import * as util from '../util/_helper'
+import * as util from '../util/helper'
 import moment from 'moment'
 
 const logger = getLogger('controller-product');

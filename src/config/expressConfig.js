@@ -1,13 +1,14 @@
 import bodyParser from 'body-parser'
 import log4js from 'log4js'
-import getLogger from '../lib/log4js'
 import session from 'express-session'
 import cookieParser from 'cookie-parser'
 import passport from 'passport'
 
-let logger = getLogger('http')
+import getLogger from '../util/_log4js'
 
-export default function(app, express) {
+const logger = getLogger('http')
+
+export default (app, express) => {
   app.use('/static', express.static('public'))
   app.use(bodyParser.json({
     limit: '50mb' // default upload file size is 100kb

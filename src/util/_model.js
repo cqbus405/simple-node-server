@@ -1,5 +1,5 @@
 import path from 'path'
-import * as util from '../util/_helper'
+import * as util from './helper'
 
 export default function(app, opt, callback) {
 	const orm = opt.orm
@@ -17,7 +17,8 @@ export default function(app, opt, callback) {
 			}
 
 			for (let i = 0; i < files.length; i++) {
-				require(files[i])(orm, db) // register each model
+				const file = files[i].replace('lib', '..')
+				require(file)(orm, db) // register each model
 			}
 
 			app.use(function(req, res, next) {
