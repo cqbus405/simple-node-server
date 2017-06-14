@@ -23,3 +23,12 @@
   }],
   "replaceConsole": true
 }
+
+{
+  "appenders": [{
+    "type": "dateFile",
+    "filename": "blah.log",
+    "pattern": "-yyyy-MM-dd",
+    "alwaysIncludePattern": true
+  }]
+}

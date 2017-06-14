@@ -8,7 +8,7 @@ import * as util from './util/helper'
 import model from './util/_model'
 import controller from './util/_controller'
 import passport from './util/_passport'
-import settings from './config/appConfig'
+import settings from './config/app.config'
 import hookRouter from './controller/router'
 import hookExpress from './config/expressConfig'
 import hookDB from './config/mysqlConfig'
@@ -17,7 +17,6 @@ import getLogger from './util/_log4js.js'
 const logger = getLogger('startup')
 const app = express()
 const mode = process.env.NODE_ENV || 'dev'
-  // const path = util.remoteDirname()
 const path = 'lib'
 const setting = settings[mode]
 
