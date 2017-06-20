@@ -1,7 +1,7 @@
 {
-  "name": "simple-server2",
-  "version": "0.0.1",
-  "description": "",
+  "name": "webserver",
+  "version": "1.0.0",
+  "description": "simple node.js cms",
   "main": "app.js",
   "scripts": {
     "build": "babel src -d lib",
@@ -10,37 +10,13 @@
   "author": "qc",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^1.0.2",
-    "body-parser": "^1.15.2",
-    "callsite": "^1.0.0",
-    "cookie-parser": "^1.4.3",
-    "elasticsearch": "^12.1.3",
-    "express": "^4.14.0",
-    "express-session": "^1.14.2",
-    "formidable": "^1.1.1",
-    "fs": "^0.0.1-security",
-    "jwt-simple": "^0.5.1",
-    "log4js": "^1.0.1",
-    "moment": "^2.17.1",
-    "mysql": "^2.12.0",
-    "orm": "^3.1.0",
-    "passport": "^0.3.2",
-    "passport-http-bearer": "^1.0.1",
-    "passport-local": "^1.0.0",
-    "q": "^1.4.1",
-    "redis": "^2.6.3",
-    "svg-captcha": "^1.2.1"
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "morgan": "^1.8.2",
+    "path": "^0.12.7"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.0",
-    "babel-preset-latest": "^6.16.0",
-    "del": "^2.2.2",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2"
-  },
-  "babel": {
-    "presets": [
-      "latest"
-    ]
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.5.2"
   }
 }

@@ -1,63 +1,24 @@
-import express from 'express'
-import orm from 'orm'
-import {
-  createServer
-} from 'http'
+var path = require('path')
+var morgan = require('morgan')
+var bodyParser = require('body-parser')
+var express = require('express')
+var app = express()
 
-import * as util from './util/helper'
-import model from './util/_model'
-import controller from './util/_controller'
-import passport from './util/_passport'
-import settings from './config/app.config'
-import hookRouter from './controller/router'
-import hookExpress from './config/expressConfig'
-import hookDB from './config/mysqlConfig'
-import getLogger from './util/_log4js.js'
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({
+  extended: false
+}))
+app.use(morgan('short'))
+app.use('/static', express.static(path.join(__dirname, '../public')))
 
-const logger = getLogger('startup')
-const app = express()
-const mode = process.env.NODE_ENV || 'dev'
-const path = 'lib'
-const setting = settings[mode]
-
-// 将系统设置和运行模式存放到request全局参数里
-app.use((req, res, next) => {
-  req.setting = setting
-  req.mode = mode
-  next()
+app.get('/', function(req, res) {
+  res.send('Hello World!')
 })
 
-// 加载application-level middleware
-hookExpress(app, express)
+app.get('/path', function(req, res) {
+  res.send(path.join(__dirname, '../public'))
+})
 
-// 设置数据库模块
-model(app, {
-  setting: setting,
-  hook: hookDB,
-  path: `${path}/model`,
-  orm: orm,
-  mode: mode
-}, (err, result, user) => {
-  if (err) {
-    logger.error(err)
-  }
-
-  // 加载认证策略
-  passport(user)
-
-  // 读取controller列表
-  controller(path + '/controller', (err, controllers) => {
-    if (err) {
-      logger.error(err)
-    }
-
-    // 加载路由
-    hookRouter(app, controllers)
-
-    // 创建server并监听请求
-    const server = createServer(app);
-    server.listen(setting.port, () => {
-      logger.info('Server is running on port ' + setting.port + ' ' + mode + '\n mysql: ' + result)
-    })
-  })
+app.listen(3000, function() {
+  console.log('app is running')
 })
