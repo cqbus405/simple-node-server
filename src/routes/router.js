@@ -1,32 +1,13 @@
-import path from 'path'
-import passport from 'passport'
-import {
-  create
-} from 'svg-captcha'
-
 export default function(app, controllers) {
-  app.get('/', function(req, res, next) {
-    return res.sendFile(path.resolve(__dirname, '../../view/home.html'))
+  app.get('/', function(req, res) {
+    return res.send('<p>Server is running!</p>')
   })
 
-  app.post('/file/upload', controllers.upload.uploadFile)
-
-  app.post('/product/add', controllers.product.addProduct)
-  app.post('/product/edit', controllers.product.editProduct)
-  app.post('/product/delete', controllers.product.removeProductByPrimaryKey)
-  app.get('/product/list', controllers.product.findProducts)
-  app.get('/product/:id', controllers.product.findProductByPrimaryKey)
-
-  app.get('/document/list', controllers.document.findDocuments)
-
-  app.post('/user/login', controllers.user.login)
-  app.post('/user/logout', controllers.user.logout)
-
-  // app.post('/user/signup', controllers.user.signUp)
-  // app.get('/user/list', controllers.user.findUsers)
-  // app.get('/captcha', controllers.general.generateCaptcha)
+  app.get('/env', controllers.config.getAppEnvironment)
+  app.get('/settings', controllers.config.getAppSettings)
+  app.get('/es-test', controllers.config.esTest)
 
   app.get('*', function(req, res) {
-    res.status(404).send('404');
-  });
+    res.status(404).send('404')
+  })
 }

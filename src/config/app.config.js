@@ -1,9 +1,6 @@
 export default {
   dev: {
-    ip: '66.1.33.112',
     port: 3001,
-    salt_round: 10,
-    token_secret: '%zoe615!',
     redis: {
       host: '66.1.33.112',
       port: 6379
@@ -14,10 +11,7 @@ export default {
     }
   },
   prod: {
-    ip: '66.1.33.112',
     port: 3001,
-    salt_round: 10,
-    token_secret: '%zoe615!',
     redis: {
       host: '66.1.33.112',
       port: 6379

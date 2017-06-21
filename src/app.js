@@ -1,9 +1,28 @@
-var path = require('path')
-var morgan = require('morgan')
-var bodyParser = require('body-parser')
-var express = require('express')
+import appConfig from '../lib/config/app.config'
+import path from 'path'
+import morgan from 'morgan'
+import bodyParser from 'body-parser'
+import express from 'express'
+import routes from './lib/routes.lib'
+import router from './routes/router'
+import elasticsearch from './lib/elasticsearch.lib'
+import redis from './lib/redis.lib'
+
 var app = express()
 
+var env = process.env.NODE_ENV ? process.env.NODE_ENV : 'dev'
+var settings = appConfig[env]
+app.use(function(req, res, next) {
+  req.settings = settings
+
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild')
+  res.header('Access-Control-Allow-Methods', 'POST, GET')
+
+  next()
+})
+app.use(redis)
+app.use(elasticsearch)
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
   extended: false
@@ -11,14 +30,9 @@ app.use(bodyParser.urlencoded({
 app.use(morgan('short'))
 app.use('/static', express.static(path.join(__dirname, '../public')))
 
-app.get('/', function(req, res) {
-  res.send('Hello World!')
-})
+let controllers = routes(path.join(__dirname, '../lib/routes'))
+router(app, controllers)
 
-app.get('/path', function(req, res) {
-  res.send(path.join(__dirname, '../public'))
-})
-
-app.listen(3000, function() {
-  console.log('app is running')
+app.listen(settings.port, function() {
+  console.log('app is running on ' + env + ' mode.')
 })
