@@ -566,6 +566,12 @@ body-parser@^1.17.2:
     raw-body "~2.2.0"
     type-is "~1.6.15"
 
+bodybuilder@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/bodybuilder/-/bodybuilder-2.2.0.tgz#f5a39b53f80a56439f00ad741525bc8b0ae82963"
+  dependencies:
+    lodash "4.9.0"
+
 boom@2.x.x:
   version "2.10.1"
   resolved "https://registry.yarnpkg.com/boom/-/boom-2.10.1.tgz#39c8918ceff5799f83f9492a848f625add0c766f"
@@ -1237,6 +1243,10 @@ lodash.trimend@^4.5.1:
 lodash@2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-2.4.2.tgz#fadd834b9683073da179b3eae6d9c0d15053f73e"
+
+lodash@4.9.0:
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.9.0.tgz#4c20d742f03ce85dc700e0dd7ab9bcab85e6fc14"
 
 lodash@^4.2.0:
   version "4.17.4"

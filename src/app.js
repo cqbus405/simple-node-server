@@ -14,6 +14,7 @@ var env = process.env.NODE_ENV ? process.env.NODE_ENV : 'dev'
 var settings = appConfig[env]
 app.use(function(req, res, next) {
   req.settings = settings
+  req.env = env
 
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild')
@@ -34,5 +35,5 @@ let controllers = routes(path.join(__dirname, '../lib/routes'))
 router(app, controllers)
 
 app.listen(settings.port, function() {
-  console.log('app is running on ' + env + ' mode.')
+  console.log('App is running on ' + env + ' mode')
 })

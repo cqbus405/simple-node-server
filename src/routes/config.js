@@ -1,6 +1,6 @@
 export const getAppEnvironment = (req, res) => {
   res.json({
-    'env': process.env.NODE_ENV
+    'env': req.env
   })
 }
 
@@ -18,7 +18,7 @@ export const esTest = (req, res) => {
     if (error) {
       console.trace('elasticsearch cluster is down!');
     } else {
-      res.send('<h1>all is well</h1>')
+      res.send('<p>Connected to Elasticsearch</p>')
     }
   });
 }
