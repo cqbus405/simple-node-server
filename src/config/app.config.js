@@ -8,7 +8,8 @@ export default {
     es: {
       host: 'http://66.1.33.112:9200',
       index: 'index_v1'
-    }
+    },
+    secret: 'zoe&q'
   },
   prod: {
     port: 3001,
@@ -19,6 +20,7 @@ export default {
     es: {
       host: 'http://66.1.33.112:9200',
       index: 'index_v1'
-    }
+    },
+    secret: 'zoe&q'
   }
 }

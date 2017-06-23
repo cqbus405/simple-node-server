@@ -5,16 +5,20 @@ import bodyParser from 'body-parser'
 import express from 'express'
 import routes from './lib/routes.lib'
 import router from './routes/router'
+import models from './lib/models.lib'
 import elasticsearch from './lib/elasticsearch.lib'
 import redis from './lib/redis.lib'
+import passport from './lib/passport.lib'
 
 var app = express()
 
 var env = process.env.NODE_ENV ? process.env.NODE_ENV : 'dev'
 var settings = appConfig[env]
+var model = models(path.join(__dirname, '../lib/models'))
 app.use(function(req, res, next) {
   req.settings = settings
   req.env = env
+  req.models = model
 
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild')
@@ -30,6 +34,8 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(morgan('short'))
 app.use('/static', express.static(path.join(__dirname, '../public')))
+
+passport()
 
 let controllers = routes(path.join(__dirname, '../lib/routes'))
 router(app, controllers)
