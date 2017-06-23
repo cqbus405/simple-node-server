@@ -1,64 +1,45 @@
+import appConfig from '../lib/config/app.config'
+import path from 'path'
+import morgan from 'morgan'
+import bodyParser from 'body-parser'
 import express from 'express'
-import orm from 'orm'
-import {
-  createServer
-} from 'http'
+import routes from './lib/routes.lib'
+import router from './routes/router'
+import models from './lib/models.lib'
+import elasticsearch from './lib/elasticsearch.lib'
+import redis from './lib/redis.lib'
+import passport from './lib/passport.lib'
 
-import * as util from './util/helper'
-import model from './util/_model'
-import controller from './util/_controller'
-import passport from './util/_passport'
-import settings from './config/appConfig'
-import hookRouter from './controller/router'
-import hookExpress from './config/expressConfig'
-import hookDB from './config/mysqlConfig'
-import getLogger from './util/_log4js.js'
+var app = express()
 
-const logger = getLogger('startup')
-const app = express()
-const mode = process.env.NODE_ENV || 'dev'
-  // const path = util.remoteDirname()
-const path = 'lib'
-const setting = settings[mode]
+var env = process.env.NODE_ENV ? process.env.NODE_ENV : 'dev'
+var settings = appConfig[env]
+var model = models(path.join(__dirname, '../lib/models'))
+app.use(function(req, res, next) {
+  req.settings = settings
+  req.env = env
+  req.models = model
 
-// 将系统设置和运行模式存放到request全局参数里
-app.use((req, res, next) => {
-  req.setting = setting
-  req.mode = mode
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild')
+  res.header('Access-Control-Allow-Methods', 'POST, GET')
+
   next()
 })
+app.use(redis)
+app.use(elasticsearch)
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({
+  extended: false
+}))
+app.use(morgan('short'))
+app.use('/static', express.static(path.join(__dirname, '../public')))
 
-// 加载application-level middleware
-hookExpress(app, express)
+passport()
 
-// 设置数据库模块
-model(app, {
-  setting: setting,
-  hook: hookDB,
-  path: `${path}/model`,
-  orm: orm,
-  mode: mode
-}, (err, result, user) => {
-  if (err) {
-    logger.error(err)
-  }
+let controllers = routes(path.join(__dirname, '../lib/routes'))
+router(app, controllers)
 
-  // 加载认证策略
-  passport(user)
-
-  // 读取controller列表
-  controller(path + '/controller', (err, controllers) => {
-    if (err) {
-      logger.error(err)
-    }
-
-    // 加载路由
-    hookRouter(app, controllers)
-
-    // 创建server并监听请求
-    const server = createServer(app);
-    server.listen(setting.port, () => {
-      logger.info('Server is running on port ' + setting.port + ' ' + mode + '\n mysql: ' + result)
-    })
-  })
+app.listen(settings.port, function() {
+  console.log('App is running on ' + env + ' mode')
 })
