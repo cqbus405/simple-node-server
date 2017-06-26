@@ -1,7 +1,6 @@
 node_modules/
 yarn-error.log
 log/
-!*/lib/
 lib/
 npm-debug.log
 .yarnclean
