@@ -66,6 +66,9 @@ const createIndex = indexName => {
               },
               modified: {
                 type: 'date'
+              },
+              last_login: {
+                type: 'date'
               }
             }
           },

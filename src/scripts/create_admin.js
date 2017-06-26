@@ -49,7 +49,9 @@ const createAdminHelper = callback => {
       group: 'admin',
       created: current,
       modified: current,
-      status: 'active'
+      status: 'active',
+      last_login: null,
+      login_ip_address: null
     }
   }, function(err, response) {
     if (err) {
@@ -57,7 +59,7 @@ const createAdminHelper = callback => {
     } else {
       callback(null, response)
     }
-  });
+  })
 }
 
 createAdmin()

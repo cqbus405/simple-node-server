@@ -9,7 +9,8 @@ export default {
       host: 'http://66.1.33.112:9200',
       index: 'zoe_index_v1'
     },
-    secret: 'zoe&q'
+    secret: 'zoe&q',
+    token_expire_day: 1
   },
   prod: {
     port: 3001,
@@ -21,7 +22,8 @@ export default {
       host: 'http://66.1.33.112:9200',
       index: 'zoe_index_v1'
     },
-    secret: 'zoe&q'
+    secret: 'zoe&q',
+    token_expire_day: 1
   },
   office: {
     port: 3001,
@@ -33,7 +35,8 @@ export default {
       host: 'http://66.1.33.112:9200',
       index: 'zoe_index_v1'
     },
-    secret: 'zoe&q'
+    secret: 'zoe&q',
+    token_expire_day: 1
   },
   home: {
     port: 3001,
@@ -45,6 +48,7 @@ export default {
       host: 'http://localhost:9200',
       index: 'zoe_index_v1'
     },
-    secret: 'zoe&q'
+    secret: 'zoe&q',
+    token_expire_day: 1
   }
 }
