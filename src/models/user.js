@@ -1,12 +1,52 @@
 import bodybuilder from 'bodybuilder'
 
-export const loginHelper = (data, callback) => {
-  callback(null, 'Login success!')
+export const loginHelper = (param, callback) => {
+  param.esHelper.updateById(param.index, 'user', param.id, param.updateData, (error, response) => {
+    if (error) {
+      callback(error, null)
+    } else {
+      param.esHelper.searchById(param.index, 'user', param.id, (error, response) => {
+        if (error) {
+          callback(error, null)
+        } else {
+          callback(null, response)
+        }
+      })
+    }
+  })
 }
 
-export const one = param => {
+export const logoutHelper = (param, callback) => {
+  param.esHelper.updateById(param.index, 'user', param.id, param.updateData, (error, response) => {
+    if (error) {
+      callback(error, null)
+    } else {
+      console.log(JSON.stringify(response))
+      callback(null, '登出成功')
+    }
+  })
+}
+
+export const one = (param, callback) => {
   let body = ''
-  for (let key in param) {
-    body = bodybuilder().query('match', key, param[key]).build()
+  let keyValue = param.param
+  for (let key in keyValue) {
+    body = bodybuilder().query('match', key, keyValue[key]).build()
   }
+
+  param.esHelper.search(param.index, 'user', body, (error, response) => {
+    if (error) {
+      callback(error, null)
+    } else {
+      let hits = response.hits.hits
+      if (hits.length === 0) {
+        callback('用户不存在', null)
+      } else {
+        let user = hits[0]._source
+        let id = hits[0]._id
+        user.id = parseInt(id)
+        callback(null, user)
+      }
+    }
+  })
 }

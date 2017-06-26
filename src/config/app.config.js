@@ -7,9 +7,10 @@ export default {
     },
     es: {
       host: 'http://66.1.33.112:9200',
-      index: 'index_v1'
+      index: 'zoe_index_v1'
     },
-    secret: 'zoe&q'
+    secret: 'zoe&q',
+    token_expire_day: 1
   },
   prod: {
     port: 3001,
@@ -19,8 +20,9 @@ export default {
     },
     es: {
       host: 'http://66.1.33.112:9200',
-      index: 'index_v1'
+      index: 'zoe_index_v1'
     },
-    secret: 'zoe&q'
+    secret: 'zoe&q',
+    token_expire_day: 1
   }
 }
