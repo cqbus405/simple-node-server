@@ -47,7 +47,8 @@ const createIndex = indexName => {
                 type: 'text'
               },
               token: {
-                type: 'text'
+                type: 'text',
+                analyzer: 'keyword'
               },
               token_created: {
                 type: 'date'
