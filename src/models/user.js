@@ -21,8 +21,17 @@ export const logoutHelper = (param, callback) => {
     if (error) {
       callback(error, null)
     } else {
-      console.log(JSON.stringify(response))
       callback(null, '登出成功')
+    }
+  })
+}
+
+export const resetPasswordHelper = (param, callback) => {
+  param.esHelper.updateById(param.index, 'user', param.id, param.updateData, (error, response) => {
+    if (error) {
+      callback(error, null)
+    } else {
+      callback(null, '密码更新成功')
     }
   })
 }
@@ -33,14 +42,13 @@ export const one = (param, callback) => {
   for (let key in keyValue) {
     body = bodybuilder().query('match', key, keyValue[key]).build()
   }
-
   param.esHelper.search(param.index, 'user', body, (error, response) => {
     if (error) {
       callback(error, null)
     } else {
       let hits = response.hits.hits
       if (hits.length === 0) {
-        callback('用户不存在', null)
+        callback(null, null)
       } else {
         let user = hits[0]._source
         let id = hits[0]._id

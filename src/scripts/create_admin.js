@@ -1,6 +1,9 @@
 import elasticsearch from 'elasticsearch'
 import moment from 'moment'
 import config from '../config/app.config'
+import {
+  generatePassword
+} from '../util/helper.util'
 
 let env = process.env.NODE_ENV ? process.env.NODE_ENV : 'home'
 let settings = config[env]
@@ -37,7 +40,7 @@ const createAdmin = () => {
 
 const createAdminHelper = callback => {
   const current = moment().unix()
-
+  let pwd = generatePassword('admin')
   client.create({
     index: 'zoe_index_v1',
     type: 'user',
@@ -47,7 +50,7 @@ const createAdminHelper = callback => {
       avatar: null,
       role: 'admin',
       account: 'admin',
-      password: 'admin',
+      password: pwd,
       token: null,
       token_created: null,
       group: 'admin',
