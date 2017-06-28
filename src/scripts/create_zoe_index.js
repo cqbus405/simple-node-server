@@ -1,10 +1,14 @@
 import elasticsearch from 'elasticsearch'
+import config from '../config/app.config'
+
+let env = process.env.NODE_ENV ? process.env.NODE_ENV : 'home'
+let settings = config[env]
 
 const createIndex = indexName => {
   console.log('Index: ' + indexName)
 
   const client = new elasticsearch.Client({
-    host: '66.1.33.112:9200'
+    host: settings.es.host
   })
 
   console.log('Check existing...')

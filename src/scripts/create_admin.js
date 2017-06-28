@@ -1,8 +1,12 @@
 import elasticsearch from 'elasticsearch'
 import moment from 'moment'
+import config from '../config/app.config'
+
+let env = process.env.NODE_ENV ? process.env.NODE_ENV : 'home'
+let settings = config[env]
 
 const client = new elasticsearch.Client({
-  host: '66.1.33.112:9200'
+  host: settings.es.host
 })
 
 const createAdmin = () => {
