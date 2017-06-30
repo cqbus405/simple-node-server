@@ -34,9 +34,7 @@ export default (req, res, next) => {
         account
       }
     }, (err, user) => {
-      if (err) {
-        return done(err, null)
-      }
+      if (err) return done(err, null)
 
       if (!user) return done('账户不存在', false)
 
@@ -59,9 +57,7 @@ export default (req, res, next) => {
         token
       }
     }, (err, user) => {
-      if (err) {
-        return done(err)
-      }
+      if (err) return done(err)
 
       if (!user) return done('令牌已失效，请重新登录', false)
 
@@ -71,9 +67,7 @@ export default (req, res, next) => {
       let loginDuration = (current - tokenCreated) / (24 * 60 * 60 * 1000)
       let expired = (loginDuration - tokenExpireDay) >= 0
 
-      if (expired) {
-        return done('令牌已过期，请重新登录', false);
-      }
+      if (expired) return done('令牌已过期，请重新登录', false);
 
       return done(null, user, {
         scope: 'all'
