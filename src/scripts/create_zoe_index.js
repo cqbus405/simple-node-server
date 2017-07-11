@@ -112,6 +112,9 @@ const createIndex = indexName => {
               },
               modified: {
                 type: 'date'
+              },
+              author: {
+                type: 'text'
               }
             }
           }
