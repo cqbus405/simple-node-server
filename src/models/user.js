@@ -48,7 +48,7 @@ export const one = (param, callback) => {
     } else {
       let hits = response.hits.hits
       if (hits.length === 0) {
-        callback(null, null)
+        callback('用户不存在', null)
       } else {
         let user = hits[0]._source
         let id = hits[0]._id

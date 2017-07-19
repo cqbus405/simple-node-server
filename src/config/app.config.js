@@ -1,5 +1,5 @@
 export default {
-  dev: {
+  development: {
     port: 3001,
     redis: {
       host: '66.1.33.112',
@@ -12,7 +12,7 @@ export default {
     secret: 'zoe&q',
     token_expire_day: 1
   },
-  prod: {
+  production: {
     port: 3001,
     redis: {
       host: '66.1.33.112',

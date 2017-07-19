@@ -5,6 +5,7 @@ import {
   validatePassword,
   generatePassword
 } from '../util/helper.util'
+import redis from 'redis'
 
 export const login = (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
@@ -46,7 +47,7 @@ export const login = (req, res, next) => {
       esHelper
     }
 
-    User.loginHelper(param, (err, user) => {
+    User.loginHelper(param, (err, updatedUser) => {
       if (err) {
         return res.json({
           status: 500,
@@ -54,10 +55,15 @@ export const login = (req, res, next) => {
         })
       }
 
+      updatedUser.id = user.id
+
+      const redis = req.redisClient
+      redis.set(updatedUser.id, JSON.stringify(updatedUser))
+
       return res.json({
         status: 200,
         msg: '成功',
-        user
+        user: updatedUser
       })
     })
   })(req, res, next)

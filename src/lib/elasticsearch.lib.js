@@ -30,13 +30,14 @@ export default function(req, res, next) {
         }
       })
     },
-    create: (index, type, param, callback) => {
-      esClient.create({
+    create: (index, type, id, param, callback) => {
+      var esParam = {
         index,
         type,
-        id,
         body: param
-      }, function(error, response) {
+      }
+      if (id) esParam.id = id
+      esClient.index(esParam, (error, response) => {
         if (error) {
           callback(error, null)
         } else {
