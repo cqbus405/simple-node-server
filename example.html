@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TinyMCE</title>
+  <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=ervxt6y99p2o9xjq4cbnd8ff3fyer9x4rpt0f1jgar16dazi"></script>
+  <script type="text/javascript">
+    tinymce.init({
+      selector: '#mytextarea',
+      menubar: false,
+      plugins: 'lists link preview textcolor image media',
+      toolbar: 'bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify alignnone | formatselect fontselect fontsizeselect | numlist bullist | link image media | preview'
+    });
+  </script>
+</head>
+<body>
+  <form method="post">
+    <textarea id="mytextarea"></textarea>
+  </form>
+</body>
+</html>

@@ -12,22 +12,21 @@ import passport from './lib/passport.lib'
 
 var app = express()
 
-var env = process.env.NODE_ENV ? process.env.NODE_ENV : 'dev'
+var env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development'
 var settings = appConfig[env]
 var model = models(path.join(__dirname, '../lib/models'))
 app.use(function(req, res, next) {
   req.settings = settings
   req.env = env
   req.models = model
-
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild')
   res.header('Access-Control-Allow-Methods', 'POST, GET')
-
   next()
 })
 app.use(redis)
 app.use(elasticsearch)
+app.use(passport)
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
   extended: false
@@ -35,11 +34,9 @@ app.use(bodyParser.urlencoded({
 app.use(morgan('short'))
 app.use('/static', express.static(path.join(__dirname, '../public')))
 
-passport()
-
 let controllers = routes(path.join(__dirname, '../lib/routes'))
 router(app, controllers)
 
 app.listen(settings.port, function() {
-  console.log('App is running on ' + env + ' mode')
+  console.log('App is running on ' + env + ' mode. Port: ' + settings.port)
 })

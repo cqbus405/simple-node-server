@@ -1,8 +1,15 @@
 import elasticsearch from 'elasticsearch'
 import moment from 'moment'
+import config from '../config/app.config'
+import {
+  generatePassword
+} from '../util/helper.util'
+
+let env = process.env.NODE_ENV ? process.env.NODE_ENV : 'home'
+let settings = config[env]
 
 const client = new elasticsearch.Client({
-  host: '66.1.33.112:9200'
+  host: settings.es.host
 })
 
 const createAdmin = () => {
@@ -33,7 +40,7 @@ const createAdmin = () => {
 
 const createAdminHelper = callback => {
   const current = moment().unix()
-
+  let pwd = generatePassword('admin')
   client.create({
     index: 'zoe_index_v1',
     type: 'user',
@@ -43,13 +50,15 @@ const createAdminHelper = callback => {
       avatar: null,
       role: 'admin',
       account: 'admin',
-      password: 'admin',
+      password: pwd,
       token: null,
       token_created: null,
       group: 'admin',
       created: current,
       modified: current,
-      status: 'active'
+      status: 'active',
+      last_login: null,
+      login_ip_address: null
     }
   }, function(err, response) {
     if (err) {
@@ -57,7 +66,7 @@ const createAdminHelper = callback => {
     } else {
       callback(null, response)
     }
-  });
+  })
 }
 
 createAdmin()

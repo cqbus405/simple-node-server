@@ -4,8 +4,12 @@ export default function(app, controllers) {
   })
 
   app.post('/user/login', controllers.user.login)
+  app.get('/user/logout', controllers.user.logout)
+  app.post('/user/password/reset', controllers.user.resetPassword)
+
+  app.post('/article/add', controllers.article.addArticle)
 
   app.get('*', function(req, res) {
-    res.status(404).send('404')
+    return res.status(404).send('404')
   })
 }

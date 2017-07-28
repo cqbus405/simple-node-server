@@ -1,10 +1,14 @@
 import elasticsearch from 'elasticsearch'
+import config from '../config/app.config'
+
+let env = process.env.NODE_ENV ? process.env.NODE_ENV : 'home'
+let settings = config[env]
 
 const createIndex = indexName => {
   console.log('Index: ' + indexName)
 
   const client = new elasticsearch.Client({
-    host: '66.1.33.112:9200'
+    host: settings.es.host
   })
 
   console.log('Check existing...')
@@ -47,7 +51,8 @@ const createIndex = indexName => {
                 type: 'text'
               },
               token: {
-                type: 'text'
+                type: 'text',
+                analyzer: 'keyword'
               },
               token_created: {
                 type: 'date'
@@ -65,6 +70,9 @@ const createIndex = indexName => {
                 type: 'date'
               },
               modified: {
+                type: 'date'
+              },
+              last_login: {
                 type: 'date'
               }
             }
@@ -104,6 +112,9 @@ const createIndex = indexName => {
               },
               modified: {
                 type: 'date'
+              },
+              author: {
+                type: 'text'
               }
             }
           }

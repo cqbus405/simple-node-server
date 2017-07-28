@@ -1,8 +1,7 @@
-node_modules/
+/node_modules/
 yarn-error.log
-log/
-!*/lib/
-lib/
+/lib/
+!/src/lib/
 npm-debug.log
 .yarnclean
 dump.rdb
