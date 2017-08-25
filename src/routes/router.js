@@ -4,7 +4,7 @@ export default function(app, controllers) {
   })
 
   app.post('/user/login', controllers.user.login)
-  app.get('/user/logout', controllers.user.logout)
+  app.post('/user/logout', controllers.user.logout)
   app.post('/user/password/reset', controllers.user.resetPassword)
 
   app.post('/article/add', controllers.article.addArticle)

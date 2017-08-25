@@ -115,6 +115,9 @@ const createIndex = indexName => {
               },
               author: {
                 type: 'text'
+              },
+              images: {
+                type: 'Array'
               }
             }
           }
