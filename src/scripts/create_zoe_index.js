@@ -82,12 +82,14 @@ const createIndex = indexName => {
               enabled: false
             },
             properties: {
+              "id": {
+                type: 'integer'
+              },
               title: {
-                type: 'text'
+                type: 'keyword'
               },
               content: {
-                type: 'text',
-                analyzer: 'keyword'
+                type: 'text'
               },
               status: {
                 type: 'keyword'
@@ -117,7 +119,7 @@ const createIndex = indexName => {
                 type: 'text'
               },
               images: {
-                type: 'Array'
+                type: 'text'
               }
             }
           }

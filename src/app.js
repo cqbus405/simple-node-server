@@ -12,6 +12,9 @@ import passport from './lib/passport.lib'
 
 var app = express()
 
+var __ROOT__ = path.join(__dirname, '..')
+var __IMAGE__ = path.resolve(__ROOT__, './public/images')
+
 var env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development'
 var settings = appConfig[env]
 var model = models(path.join(__dirname, '../lib/models'))
