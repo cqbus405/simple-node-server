@@ -49,7 +49,6 @@ export default (req, res, next) => {
   }))
 
   passport.use(new BearerStrategy((token, done) => {
-    console.log('token: ' + token)
     User.one({
       index: req.settings.es.index,
       esClient: req.esClient,

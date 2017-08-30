@@ -3,12 +3,13 @@ export default function(app, controllers) {
     return res.send('<p>Server is running!</p>')
   })
 
-  app.post('/user/login', controllers.user.login)
-  app.post('/user/logout', controllers.user.logout)
-  app.post('/user/password/reset', controllers.user.resetPassword)
+  app.post('/admin/user/login', controllers.user.login)
+  app.post('/admin/user/logout', controllers.user.logout)
+  app.post('/admin/user/password/reset', controllers.user.resetPassword)
 
-  app.post('/article/add', controllers.article.addArticle)
-  app.get('/article/list', controllers.article.getArticleList)
+  app.post('/admin/article/add', controllers.article.addArticle)
+  app.get('/admin/article/list', controllers.article.getArticleList)
+  app.get('/admin/article/categories', controllers.article.getCategoryList)
 
   app.get('*', function(req, res) {
     return res.status(404).send('404')

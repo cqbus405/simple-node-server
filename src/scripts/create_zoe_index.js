@@ -82,11 +82,12 @@ const createIndex = indexName => {
               enabled: false
             },
             properties: {
-              "id": {
+              id: {
                 type: 'integer'
               },
               title: {
-                type: 'keyword'
+                type: 'text',
+                fielddata: true
               },
               content: {
                 type: 'text'

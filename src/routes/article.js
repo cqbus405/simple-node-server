@@ -9,7 +9,7 @@ export const addArticle = (req, res, next) => {
       let msg = !err ? '未获取用户数据，请重新登录' : err
       return res.json({
         status: 500,
-        msg: err
+        msg: msg
       })
     }
 
@@ -64,7 +64,7 @@ export const getArticleList = (req, res, next) => {
       let msg = !err ? '未获取用户数据，请重新登录' : err
       return res.json({
         status: 500,
-        msg: err
+        msg: msg
       })
     }
 
@@ -74,6 +74,10 @@ export const getArticleList = (req, res, next) => {
     let sort = req.query.sort
     let start = req.query.start
     let size = req.query.size
+
+    if (!status) status = 'all'
+    if (!category) category = 'all'
+    if (!size) size = 10
 
     let wrappedData = {
       status,
@@ -86,6 +90,7 @@ export const getArticleList = (req, res, next) => {
 
     const index = req.settings.es.index
     const esHelper = req.esHelper
+    const Article = req.models.article
 
     let param = {
       index,
@@ -94,6 +99,44 @@ export const getArticleList = (req, res, next) => {
     }
 
     Article.getArticleListHelper(param, (err, response) => {
+      if (err) {
+        return res.json({
+          status: 500,
+          msg: err
+        })
+      }
+
+      return res.json({
+        status: 200,
+        data: response,
+        msg: 'success'
+      })
+    })
+  })(req, res, next)
+}
+
+export const getCategoryList = (req, res, next) => {
+  passport.authenticate('bearer', {
+    session: false
+  }, (err, user) => {
+    if (err || !user) {
+      let msg = !err ? '未获取用户数据，请重新登录' : err
+      return res.json({
+        status: 500,
+        msg: msg
+      })
+    }
+
+    const index = req.settings.es.index
+    const esHelper = req.esHelper
+    const Article = req.models.article
+
+    let param = {
+      index,
+      esHelper
+    }
+
+    Article.getCategoryListHelper(param, (err, response) => {
       if (err) {
         return res.json({
           status: 500,
