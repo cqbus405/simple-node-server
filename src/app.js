@@ -9,16 +9,18 @@ import models from './lib/models.lib'
 import elasticsearch from './lib/elasticsearch.lib'
 import redis from './lib/redis.lib'
 import passport from './lib/passport.lib'
+import logger from './lib/winston.lib'
 
-var app = express()
+let app = express()
+app.use(logger)
 
-var __ROOT__ = path.join(__dirname, '..')
-var __IMAGE__ = path.resolve(__ROOT__, './public/images')
+let __ROOT__ = path.join(__dirname, '..')
+let __IMAGE__ = path.resolve(__ROOT__, './public/images')
 
-var env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development'
-var settings = appConfig[env]
-var model = models(path.join(__dirname, '../lib/models'))
-app.use(function(req, res, next) {
+let env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development'
+let settings = appConfig[env]
+let model = models(path.join(__dirname, '../lib/models'))
+app.use((req, res, next) => {
   req.settings = settings
   req.env = env
   req.models = model
@@ -40,6 +42,6 @@ app.use('/static', express.static(path.join(__dirname, '../public')))
 let controllers = routes(path.join(__dirname, '../lib/routes'))
 router(app, controllers)
 
-app.listen(settings.port, function() {
-  console.log('App is running on ' + env + ' mode. Port: ' + settings.port)
+app.listen(settings.port, () => {
+  console.log('App is running on ' + env + ' mode. Port: ' + settings.port + ' PID: ' + process.pid)
 })

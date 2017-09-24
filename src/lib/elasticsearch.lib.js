@@ -1,6 +1,6 @@
 import elasticsearch from 'elasticsearch'
 
-export default function(req, res, next) {
+export default (req, res, next) => {
   const esClient = new elasticsearch.Client({
     host: req.settings.es.host
   })
@@ -71,7 +71,7 @@ export default function(req, res, next) {
         index,
         type,
         id
-      }, function(error, response) {
+      }, (error, response) => {
         if (error) {
           callback(error.message, null)
         } else {
@@ -84,7 +84,7 @@ export default function(req, res, next) {
         index,
         type,
         body: param
-      }, function(error, response) {
+      }, (error, response) => {
         if (error) {
           callback(error.message, null)
         } else {
@@ -95,6 +95,5 @@ export default function(req, res, next) {
   }
 
   req.esHelper = elasticsearchHelper
-
   next()
 }

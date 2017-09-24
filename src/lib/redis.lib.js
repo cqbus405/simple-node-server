@@ -1,8 +1,8 @@
 import redis from 'redis'
 
-export default function(req, res, next) {
+export default (req, res, next) => {
   const config = req.settings.redis
-  const redisClient = redis.createClient(config)
-  req.redisClient = redisClient
+  const client = redis.createClient(config)
+  req.redisClient = client
   next()
 }

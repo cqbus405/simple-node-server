@@ -1,5 +1,5 @@
-export default function(app, controllers) {
-  app.get('/', function(req, res) {
+export default (app, controllers) => {
+  app.get('/', (req, res) => {
     return res.send('<p>Server is running!</p>')
   })
 
@@ -11,7 +11,7 @@ export default function(app, controllers) {
   app.get('/admin/article/list', controllers.article.getArticleList)
   app.get('/admin/article/categories', controllers.article.getCategoryList)
 
-  app.get('*', function(req, res) {
+  app.get('*', (req, res) => {
     return res.status(404).send('404')
   })
 }
