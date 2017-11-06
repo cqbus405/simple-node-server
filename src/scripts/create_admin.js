@@ -16,7 +16,7 @@ const createAdmin = () => {
   console.log('Creating admin...')
 
   client.exists({
-    index: 'zoe_index_v1',
+    index: 'user',
     type: 'user',
     id: 1
   }, (err, exists) => {
@@ -42,7 +42,7 @@ const createAdminHelper = callback => {
   const current = moment().unix()
   let pwd = generatePassword('admin')
   client.create({
-    index: 'zoe_index_v1',
+    index: 'user',
     type: 'user',
     id: '1',
     body: {

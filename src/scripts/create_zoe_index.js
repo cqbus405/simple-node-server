@@ -1,10 +1,10 @@
 import elasticsearch from 'elasticsearch'
 import config from '../config/app.config'
 
-let env = process.env.NODE_ENV ? process.env.NODE_ENV : 'home'
+let env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development'
 let settings = config[env]
 
-const createIndex = indexName => {
+const createIndex = (indexName, mappings) => {
   console.log('Index: ' + indexName)
 
   const client = new elasticsearch.Client({
@@ -25,106 +25,10 @@ const createIndex = indexName => {
       index: indexName,
       body: {
         settings: {
-          number_of_shards: 2,
+          number_of_shards: 1,
           number_of_replicas: 1
         },
-        mappings: {
-          user: {
-            _all: {
-              enabled: false
-            },
-            properties: {
-              name: {
-                type: 'text',
-                analyzer: 'keyword'
-              },
-              avatar: {
-                type: 'text'
-              },
-              role: {
-                type: 'keyword'
-              },
-              account: {
-                type: 'text'
-              },
-              password: {
-                type: 'text'
-              },
-              token: {
-                type: 'text',
-                analyzer: 'keyword'
-              },
-              token_created: {
-                type: 'date'
-              },
-              group: {
-                type: 'keyword'
-              },
-              status: {
-                type: 'keyword'
-              },
-              login_ip_address: {
-                type: 'ip'
-              },
-              created: {
-                type: 'date'
-              },
-              modified: {
-                type: 'date'
-              },
-              last_login: {
-                type: 'date'
-              }
-            }
-          },
-          article: {
-            _all: {
-              enabled: false
-            },
-            properties: {
-              id: {
-                type: 'integer'
-              },
-              title: {
-                type: 'text',
-                fielddata: true
-              },
-              content: {
-                type: 'text'
-              },
-              status: {
-                type: 'keyword'
-              },
-              category: {
-                type: 'keyword'
-              },
-              tag: {
-                type: 'keyword'
-              },
-              viewed: {
-                type: 'integer'
-              },
-              favorited: {
-                type: 'integer'
-              },
-              shared: {
-                type: 'integer'
-              },
-              created: {
-                type: 'date'
-              },
-              modified: {
-                type: 'date'
-              },
-              author: {
-                type: 'text'
-              },
-              images: {
-                type: 'text'
-              }
-            }
-          }
-        }
+        mappings
       }
     }, (err, response) => {
       if (err) {
@@ -136,4 +40,16 @@ const createIndex = indexName => {
   })
 }
 
-createIndex('zoe_index_v1')
+const indices = settings.es.index
+for (let i = 0; i < indices.length; ++i) {
+  let index = indices[i]
+  let properties = settings.es.properties[index]
+  let mappings = {}
+  mappings[index] = {
+    properties
+  }
+  mappings[index]['_all'] = {
+    enabled: false
+  }
+  createIndex(index, mappings)
+}

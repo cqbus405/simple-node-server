@@ -3,7 +3,7 @@ import moment from 'moment'
 import config from '../config/app.config'
 import path from 'path'
 
-let env = process.env.NODE_ENV ? process.env.NODE_ENV : 'home'
+let env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development'
 let settings = config[env]
 
 const client = new elasticsearch.Client({
@@ -47,7 +47,7 @@ const createSampleArticleHelper = (id, callback) => {
   }
 
   client.index({
-    index: 'zoe_index_v1',
+    index: 'article',
     type: 'article',
     body: {
       id,
