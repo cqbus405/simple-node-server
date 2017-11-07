@@ -27,7 +27,7 @@ export default (req, res, next) => {
     passwordField: 'password'
   }, (account, password, done) => {
     User.one({
-      index: req.settings.es.index,
+      index: 'user',
       esClient: req.esClient,
       esHelper: req.esHelper,
       param: {
@@ -50,7 +50,7 @@ export default (req, res, next) => {
 
   passport.use(new BearerStrategy((token, done) => {
     User.one({
-      index: req.settings.es.index,
+      index: 'user',
       esClient: req.esClient,
       esHelper: req.esHelper,
       param: {

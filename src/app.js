@@ -10,6 +10,7 @@ import elasticsearch from './lib/elasticsearch.lib'
 import redis from './lib/redis.lib'
 import passport from './lib/passport.lib'
 import logger from './lib/winston.lib'
+import requestIp from 'request-ip'
 
 let app = express()
 app.use(logger)
@@ -38,6 +39,7 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(morgan('short'))
 app.use('/static', express.static(path.join(__dirname, '../public')))
+app.use(requestIp.mw())
 
 let controllers = routes(path.join(__dirname, '../lib/routes'))
 router(app, controllers)

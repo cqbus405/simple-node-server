@@ -25,6 +25,7 @@
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "redis": "^2.7.1",
+    "request-ip": "^2.0.2",
     "winston": "^2.3.1",
     "winston-daily-rotate-file": "^1.7.2"
   },

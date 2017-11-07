@@ -27,7 +27,7 @@ export const login = (req, res, next) => {
     const tokenSecret = req.settings.secret
     const esClient = req.esClient
     const esHelper = req.esHelper
-    const index = req.settings.es.index
+    const index = 'user'
 
     let token = jwt.encode({
       id: user.id
@@ -37,7 +37,7 @@ export const login = (req, res, next) => {
       token: token,
       token_created: current,
       last_login: current,
-      login_ip_address: req.connection.remoteAddress
+      login_ip_address: req.clientIp
     }
     let param = {
       id: user.id,
